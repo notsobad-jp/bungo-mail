@@ -73,9 +73,3 @@
     = f.submit '配信を予約する', class: "mb-2 rounded bg-red-600 text-white py-4 w-full #{disabled ? 'opacity-50' : 'hover:bg-red-500 cursor-pointer'}", disabled: disabled
     - if @book.rightsReserved
       .text-xs ※この作品は著作権が存続しているため、カスタム配信はご利用になれません。
-
-- if request.referer
-  = link_to :back, class: 'text-link inline-flex items-center space-x-1 mb-8' do
-    %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4")
-      %path(stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5")
-    %span 一覧に戻る
