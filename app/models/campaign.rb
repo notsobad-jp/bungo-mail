@@ -43,7 +43,7 @@ class Campaign < ApplicationRecord
   def create_and_subscribe_and_schedule_feeds
     ActiveRecord::Base.transaction do
       save!
-      user.subscribe(self, delivery_method: "webpush")
+      user.subscribe(self, delivery_method:)
       create_feeds
       schedule_feeds
     end
@@ -66,8 +66,8 @@ class Campaign < ApplicationRecord
   def schedule_feeds
     jobs = feeds.map do |feed|
       next if feed.send_at < Time.current
-      FeedDeliveryJob.new(feed_id: id).set(
-        run_at: feed.send_at,
+      FeedDeliveryJob.new(feed_id: feed.id).set(
+        wait_until: feed.send_at,
         queue: id,
       )
     end.compact
