@@ -53,3 +53,5 @@ end
 group :production do
   gem 'scout_apm'
 end
+
+gem "bcrypt", "~> 3.1"

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   get 'campaigns/dogramagra' => "pages#dogramagra"
 
   resources :books, only: [:index, :show]
