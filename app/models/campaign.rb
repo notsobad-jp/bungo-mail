@@ -43,7 +43,7 @@ class Campaign < ApplicationRecord
   def create_and_subscribe_and_schedule_feeds
     ActiveRecord::Base.transaction do
       save!
-      user.subscribe(self, delivery_method:)
+      user.subscribe(campaign: self, delivery_method:)
       create_feeds
       schedule_feeds
     end
@@ -53,10 +53,10 @@ class Campaign < ApplicationRecord
     book = Book.find(self.book_id)
     contents = book.contents(count: count)
 
-    feeds = contents.map.with_index do |content, index|
+    feeds = contents.map.with_index(1) do |content, index|
       {
         content: content,
-        delivery_date: start_date + index,
+        position: index,
         campaign_id: self.id
       }
     end

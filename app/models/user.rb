@@ -25,8 +25,8 @@ class User < ApplicationRecord
     Digest::SHA256.hexdigest(email)
   end
 
-  def subscribe(campaign, delivery_method: "email")
-    subscriptions.create(campaign: campaign, delivery_method: delivery_method)
+  def subscribe(campaign:, delivery_method:)
+    subscriptions.create(campaign:, delivery_method:)
   end
 
   def trialing?
