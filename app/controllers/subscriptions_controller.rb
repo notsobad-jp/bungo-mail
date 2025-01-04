@@ -1,6 +1,4 @@
 class SubscriptionsController < ApplicationController
-  before_action :require_login, only: [:index, :create, :destroy]
-
   def index
     @meta_title = "配信管理"
 

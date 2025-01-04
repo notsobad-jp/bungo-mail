@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_stripe_key
-  before_action :require_login, only: [:show, :update, :webpush_test]
+  allow_unauthenticated_access only: %i[ new create ]
 
   def new
     redirect_to(mypage_path) if current_user
@@ -76,10 +75,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-    def set_stripe_key
-      Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key)
-    end
 
     def user_params
       params.require(:user).permit(:email)
