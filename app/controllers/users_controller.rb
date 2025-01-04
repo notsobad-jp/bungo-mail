@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   allow_unauthenticated_access only: %i[ new create ]
 
   def new
-    redirect_to(mypage_path) if Current.user
+    redirect_to(mypage_path) if authenticated?
 
     @meta_title = 'アカウント登録'
     @no_index = true

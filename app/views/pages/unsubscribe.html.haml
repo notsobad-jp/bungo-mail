@@ -9,7 +9,7 @@
 
 .mb-8
   = form_with(url: user_path, method: :delete, local: true, class: '') do |f|
-    - if Current.user
+    - if authenticated?
       = f.email_field :email, class: "block w-full p-2 rounded border mb-2 bg-gray-200 text-gray-500", disabled: true, value: Current.user.email_address
       = f.hidden_field :email, value: Current.user.email_address
     - else
