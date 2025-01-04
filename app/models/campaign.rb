@@ -43,7 +43,7 @@ class Campaign < ApplicationRecord
   def create_and_subscribe_and_schedule_feeds
     ActiveRecord::Base.transaction do
       save!
-      user.subscribe(self, delivery_method:)
+      user.subscribe(campaign: self, delivery_method:)
       create_feeds
       schedule_feeds
     end
