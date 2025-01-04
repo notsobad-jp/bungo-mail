@@ -59,6 +59,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_04_073134) do
     t.integer "position", null: false
     t.index ["campaign_id", "position"], name: "index_feeds_on_campaign_id_and_position", unique: true
     t.index ["campaign_id"], name: "index_feeds_on_campaign_id"
+    t.check_constraint "\"position\" >= 1", name: "check_position_greater_than_zero"
   end
 
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

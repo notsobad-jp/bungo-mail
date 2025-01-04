@@ -68,7 +68,7 @@
           = link_to feed_path(feed), class: "flex justify-between space-x-4 items-center hover:bg-gray-50 px-2 py-3" do
             %div.truncate
               .flex.items-center.space-x-2
-                %span.font-bold= "##{feed.index}"
+                %span.font-bold= "##{feed.position}"
                 %span.text-sm
                   = feed.delivery_date
               .text-gray-400.text-xs.truncate

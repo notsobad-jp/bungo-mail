@@ -53,10 +53,10 @@ class Campaign < ApplicationRecord
     book = Book.find(self.book_id)
     contents = book.contents(count: count)
 
-    feeds = contents.map.with_index do |content, index|
+    feeds = contents.map.with_index(1) do |content, index|
       {
         content: content,
-        delivery_date: start_date + index,
+        position: index,
         campaign_id: self.id
       }
     end
