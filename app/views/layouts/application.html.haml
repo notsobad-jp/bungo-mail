@@ -34,7 +34,7 @@
       .container.mx-auto.max-w-screen-lg.px-4(class="lg:px-0")
         .mb-32.grid.grid-cols-1(class="lg:grid-cols-4 lg:gap-12")
           .col-span-3
-            = render partial: 'layouts/flash', locals: { style: '-mt-4 mb-4' }
+            = render partial: 'layouts/flash'
             = render partial: 'layouts/breadcrumb'
             = yield
           .col-span-1.hidden.lg:block
