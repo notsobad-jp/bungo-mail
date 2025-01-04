@@ -2,7 +2,7 @@
   .mb-8.px-4.py-2.rounded.bg-yellow-50.border.border-yellow-500.text-yellow-700.flex.items-center.space-x-2
     %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-1")
       %path(stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z")
-    %div
+    .flex-1
       作品を配信するためには
       = link_to "アカウント登録", signup_path, class: "text-link"
       または
@@ -38,21 +38,21 @@
           .inline.text-red-600= @book.recommended_duration
           .inline.text-sm ）
       %div(class="flex sm:items-center flex-col sm:flex-row sm:space-x-2")
-        = f.date_field :start_date, min: Date.current.tomorrow, required: true, class: 'border border-gray-200 rounded p-2 flex-1'
+        = f.date_field :start_date, min: Date.current.tomorrow, max: Date.current.since(2.month), required: true, class: 'border border-gray-200 rounded p-2 flex-1'
         %div(class="text-center rotate-90 sm:rotate-0") 〜
-        = f.date_field :end_date, min: Date.current.tomorrow, max: Date.tomorrow.since(12.months), required: true, class: 'border border-gray-200 rounded p-2 flex-1'
-      %small.text-xs ※配信予約は最長で12ヶ月先までです
+        = f.date_field :end_date, min: Date.current.tomorrow, max: Date.current.since(14.months).end_of_month, required: true, class: 'border border-gray-200 rounded p-2 flex-1'
+      %small.text-xs ※配信開始日は現在から2ヶ月以内、配信期間は12ヶ月以内で設定してください
     .mb-8
       %h5.mb-2.font-bold 配信時間
-      = f.time_field :delivery_time, class: 'border border-gray-200 rounded w-full p-2', placeholder: '07:00', min: '05:00', max: '23:00', step: 1800
+      = f.time_field :delivery_time, class: 'border border-gray-200 rounded w-full p-2', placeholder: '07:00', min: '05:00', max: '23:00', step: 600
       %small.text-xs ※配信時間は5:00~23:00の間で指定可能です（実際の配信には数分程度の誤差があります）
     .mb-8
       %h5.mb-2.font-bold 受信方法
       %div
         - if current_user.blank?
           = f.select :delivery_method,
-            options_for_select(Subscription.delivery_methods),
-            required: true,
+            Subscription.delivery_methods,
+            { include_blank: "-- 選択してください --", required: true },
             class: 'border border-gray-200 rounded w-full p-2'
         - else
           - if current_user.fcm_device_token.blank?
@@ -65,8 +65,8 @@
                 が必要です
           - else
             = f.select :delivery_method,
-              options_for_select(Subscription.delivery_methods, selected: "webpush", disabled: ["email"]),
-              required: true,
+              Subscription.delivery_methods,
+              { include_blank: "-- 選択してください --", selected: :webpush, disabled: [:email], required: true },
               class: 'border border-gray-200 rounded w-full p-2'
   .mb-4
     - disabled = !current_user || @book.rightsReserved || current_user.fcm_device_token.blank?

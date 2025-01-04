@@ -108,11 +108,15 @@ class Campaign < ApplicationRecord
       errors.add(:base, "他の配信と期間が重複しています") if overlapping.present?
     end
 
+    def start_date_should_not_be_too_far
+      errors.add(:base, "配信開始日は現在から2ヶ月以内に設定してください") if start_date > Date.current.since(2.months)
+    end
+
     def end_date_should_come_after_start_date
       errors.add(:base, "配信終了日は開始日より後に設定してください") if end_date < start_date
     end
 
     def end_date_should_not_be_too_far
-      errors.add(:base, "配信終了日は現在から12ヶ月以内に設定してください") if end_date > Date.current.since(12.months)
+      errors.add(:base, "配信終了日は開始日から12ヶ月以内に設定してください") if end_date > start_date.since(12.months)
     end
 end
