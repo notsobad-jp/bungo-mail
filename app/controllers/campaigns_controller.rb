@@ -25,7 +25,7 @@ class CampaignsController < ApplicationController
 
   def show
     @campaign = Campaign.find(params[:id])
-    @feeds = Feed.delivered.where(campaign_id: @campaign.id).order(delivery_date: :desc).page(params[:page]) # FIXME
+    @feeds = Feed.delivered.where(campaign_id: @campaign.id).order(position: :desc).page(params[:page]) # FIXME
     @subscription = current_user.subscriptions.find_by(campaign_id: @campaign.id) if current_user
     @meta_title = @campaign.author_and_book_name
 
