@@ -1,4 +1,4 @@
-%footer.bg-gray-900.text-gray-300.text-center.py-12.text-sm
+%footer.bg-gray-900.text-gray-300.text-center.px-4.py-12.text-sm
   %h5.font-bold.text-white.text-base.mb-8
     ブンゴウメール
 
@@ -13,7 +13,7 @@
         %path(d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2m13 2h-2.5A3.5 3.5 0 0 0 12 8.5V11h-2v3h2v7h3v-7h3v-3h-3V9a1 1 0 0 1 1-1h2V5z")
       シェア
 
-  .ui.horizontal.list.mb-8.space-x-4
+  .flex.items-center.justify-center.flex-wrap.mb-8.space-x-4.leading-relaxed
     = link_to '使い方ガイド', 'https://notsobad-jp.notion.site/notsobad-jp/167de8560b3c4860afc6f64e51f22371', target: '_blank', class: 'hover:text-white'
     = link_to '利用規約', page_url(:terms), class: 'item'
     = link_to 'プライバシーポリシー', page_url(:privacy), class: 'item'
@@ -22,8 +22,10 @@
     = link_to '運営', 'https://notsobad.jp', target: '_blank', class: 'hover:text-white'
     = link_to '退会', page_path(:unsubscribe), class: 'hover:text-white'
   %div
-    .text-sm.mb-4
-      Copyright ブンゴウメール 2018-#{Time.current.year} All rights reserved.
+    .text-sm.mb-4.leading-relaxed
+      Copyright ブンゴウメール 2018-#{Time.current.year}
+      %br.block.sm:hidden
+      All rights reserved.
     .text-sm
       Powered by
       %a{:href => "https://notsobad.jp", :target => "_blank"} NOT SO BAD, LLC.
