@@ -13,4 +13,4 @@
 -------<br />
 配信元: ブンゴウメール編集部<br />
 NOT SO BAD, LLC.<br />
-Web： <%= link_to(nil, "https://bungomail.com") %><br />
+Web： <%= link_to(nil, Rails.application.credentials.dig(:hosts, "bungo-mail")) %><br />

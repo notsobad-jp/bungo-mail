@@ -1,4 +1,4 @@
-<div class="border-b border-gray-100" style="background-image: url('/assets/images/seigaiha.png')">
+<div class="border-b border-gray-100" style="background-image: url(<%= image_url('backgrounds/seigaiha.png') %>)">
   <!-- Header -->
   <%= render partial: 'layouts/header' %>
 
@@ -14,7 +14,7 @@
     <div class="relative py-12">
       <div class="mx-auto lg:max-w-7xl px-6 space-y-12 lg:space-y-0 lg:flex lg:items-center lg:gap-x-10 lg:px-8">
         <div class="max-w-[300px] mx-auto">
-          <img src="/assets/images/logo.png" class="" />
+          <%= image_tag "logo.png", alt: "ブンゴウメール" %>
         </div>
 
         <div class="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
@@ -207,7 +207,7 @@
         <div class="pt-8 lg:inline-block lg:w-full lg:px-4">
           <figure class="flex items-center lg:items-start flex-row lg:flex-col-reverse space-x-4 lg:space-x-0 rounded-2xl bg-gray-50 p-8 text-sm leading-6">
             <figcaption class="flex-none lg:mt-6 flex items-center gap-x-4">
-              <img class="h-10 w-10 rounded-full bg-gray-50" src="/assets/images/lp/feedback/helen.jpg" alt="">
+              <%= image_tag "lp/feedback/helen.jpg", class: "h-10 w-10 rounded-full bg-gray-50", alt: "helen" %>
             </figcaption>
             <blockquote class="text-gray-900">
               <p>
@@ -219,7 +219,7 @@
         <div class="pt-8 lg:inline-block lg:w-full lg:px-4">
           <figure class="flex items-center lg:items-start flex-row lg:flex-col-reverse space-x-4 lg:space-x-0 rounded-2xl bg-gray-50 p-8 text-sm leading-6">
             <figcaption class="flex-none lg:mt-6 flex items-center gap-x-4">
-              <img class="h-10 w-10 rounded-full bg-gray-50" src="/assets/images/lp/feedback/elyse.png" alt="">
+              <%= image_tag "lp/feedback/elyse.png", class: "h-10 w-10 rounded-full bg-gray-50", alt: "elyse" %>
             </figcaption>
             <blockquote class="text-gray-900">
               <p>
@@ -231,7 +231,7 @@
         <div class="pt-8 lg:inline-block lg:w-full lg:px-4">
           <figure class="flex items-center lg:items-start flex-row lg:flex-col-reverse space-x-4 lg:space-x-0 rounded-2xl bg-gray-50 p-8 text-sm leading-6">
             <figcaption class="flex-none lg:mt-6 flex items-center gap-x-4">
-              <img class="h-10 w-10 rounded-full bg-gray-50" src="/assets/images/lp/feedback/stevie.jpg" alt="">
+              <%= image_tag "lp/feedback/stevie.jpg", class: "h-10 w-10 rounded-full bg-gray-50", alt: "stevie" %>
             </figcaption>
             <blockquote class="text-gray-900">
               <p>
@@ -243,7 +243,7 @@
         <div class="pt-8 lg:inline-block lg:w-full lg:px-4">
           <figure class="flex items-center lg:items-start flex-row lg:flex-col-reverse space-x-4 lg:space-x-0 rounded-2xl bg-gray-50 p-8 text-sm leading-6">
             <figcaption class="flex-none lg:mt-6 flex items-center gap-x-4">
-              <img class="h-10 w-10 rounded-full bg-gray-50" src="/assets/images/lp/feedback/elliot.jpg" alt="">
+              <%= image_tag "lp/feedback/elliot.jpg", class: "h-10 w-10 rounded-full bg-gray-50", alt: "elliot" %>
             </figcaption>
             <blockquote class="text-gray-900">
               <p>
@@ -486,37 +486,37 @@
 
     <div class="mt-20 mx-auto max-w-lg flex flex-wrap items-center justify-center space-x-0 sm:max-w-xl sm:space-x-8 lg:mx-0 lg:max-w-none">
       <%= link_to "https://www.nhk.jp/p/shibu5/ts/X5J7MZMGGY/episode/te/729252Z8XK/", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/nhk.png" alt="Transistor" width="158" height="48" />
+        <%= image_tag "lp/media/nhk.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://www.j-wave.co.jp/original/colorswonder/entry/200517.html", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/j-wave.png" alt="Transistor" width="158" height="48" />
+        <%= image_tag "lp/media/j-wave.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://gigazine.net/news/20180531-bungomail/", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/gigazine.png" alt="Transistor" width="158" height="48" />
+        <%= image_tag "lp/media/gigazine.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/nlab.png" alt="Transistor" width="158" height="48" />
+        <%= image_tag "lp/media/nlab.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/internetwatch.png" alt="Transistor" width="158" height="48" />
+        <%= image_tag "lp/media/internetwatch.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://rocketnews24.com/2019/12/11/1303143/", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/rocketnews.png" alt="Transistor" width="158" height="48" />
+        <%= image_tag "lp/media/rocketnews.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://kai-you.net/article/69993", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/kai-you.png" alt="Transistor" width="158" height="48" />
+        <%= image_tag "lp/media/kai-you.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://news.mynavi.jp/article/20201206-1562101/", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/mynavi.png" alt="Statamic" width="158" height="48" />
+        <%= image_tag "lp/media/mynavi.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://amp.review/2019/04/08/search-bungomail/", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/amp.png" alt="Statamic" width="158" height="48" />
+        <%= image_tag "lp/media/amp.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://www.j-cast.com/trend/2019/04/08354695.html", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/jcast.png" alt="Statamic" width="158" height="48" />
+        <%= image_tag "lp/media/jcast.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://lamire.jp/148287", target: :_blank do %>
-        <img class="block max-h-8 sm:max-h-12 object-contain mb-4" src="/assets/images/lp/media/lamire.png" alt="Statamic" width="158" height="48" />
+        <%= image_tag "lp/media/lamire.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
       <% end %>
     </div>
   </div>
@@ -637,7 +637,7 @@
       <div class="mt-16 space-y-8 lg:mt-20 lg:space-y-8">
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/lp/news/nhk.jpg" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "lp/news/nhk.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "NHK「ニュース シブ5時」" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
@@ -663,7 +663,7 @@
 
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/lp/news/episodes.jpg" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "lp/news/episodes.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "KADOKAWA『文豪どうかしてる逸話集』" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
@@ -689,7 +689,7 @@
 
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/lp/news/booqs.png" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "lp/news/booqs.png", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "英単語学習サービス「BooQs」" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
@@ -715,7 +715,7 @@
 
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/lp/news/j-wave.jpg" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "lp/news/j-wave.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "J-WAVE「COLORS OF WONDER」" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
@@ -741,7 +741,7 @@
 
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/ogp_search.png" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "ogp_search.png", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "ブンゴウサーチ" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
@@ -767,7 +767,7 @@
 
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/channels/dogramagra.png" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "channels/dogramagra.png", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "ドグラ・マグラ365日配信チャレンジ" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
@@ -793,7 +793,7 @@
 
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/lp/news/book_tech.jpg" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "lp/news/book_tech.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "本の新しい読み方〜BOOK TECH〜" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
@@ -819,7 +819,7 @@
 
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/channels/business-model.png" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "channels/business-model.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "ビジネスモデル2.0図鑑" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
@@ -845,7 +845,7 @@
 
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <img src="/assets/images/channels/alterego.png" alt="" class="absolute inset-0 h-full w-full rounded bg-gray-50 object-cover">
+            <%= image_tag "channels/alterego.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "ALTER EGO" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>

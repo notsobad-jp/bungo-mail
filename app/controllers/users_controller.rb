@@ -70,8 +70,7 @@ class UsersController < ApplicationController
 
   def webpush_test
     Webpush.notify(webpush_payload)
-  rescue => e
-    p e
+  rescue
     flash[:error] = 'プッシュ通知のテスト送信に失敗しました。ブラウザの通知許可を再度ご設定ください。'
     redirect_to mypage_path
   end
@@ -94,7 +93,7 @@ class UsersController < ApplicationController
           notification: {
             title: "プッシュ通知テスト",
             body: "ブンゴウメールのプッシュ通知テスト配信です。",
-            image: "https://bungomail.com/favicon.ico",
+            image: "/favicon.ico",
           },
           webpush: {
             fcm_options: {
