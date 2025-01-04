@@ -43,7 +43,7 @@ class Campaign < ApplicationRecord
   def create_and_subscribe_and_schedule_feeds
     ActiveRecord::Base.transaction do
       save!
-      user.subscribe(self, delivery_method: "webpush")
+      user.subscribe(self, delivery_method:)
       create_feeds
       schedule_feeds
     end
@@ -66,8 +66,8 @@ class Campaign < ApplicationRecord
   def schedule_feeds
     jobs = feeds.map do |feed|
       next if feed.send_at < Time.current
-      FeedDeliveryJob.new(feed_id: id).set(
-        run_at: feed.send_at,
+      FeedDeliveryJob.new(feed_id: feed.id).set(
+        wait_until: feed.send_at,
         queue: id,
       )
     end.compact
@@ -108,11 +108,15 @@ class Campaign < ApplicationRecord
       errors.add(:base, "他の配信と期間が重複しています") if overlapping.present?
     end
 
+    def start_date_should_not_be_too_far
+      errors.add(:base, "配信開始日は現在から2ヶ月以内に設定してください") if start_date > Date.current.since(2.months)
+    end
+
     def end_date_should_come_after_start_date
       errors.add(:base, "配信終了日は開始日より後に設定してください") if end_date < start_date
     end
 
     def end_date_should_not_be_too_far
-      errors.add(:base, "配信終了日は現在から12ヶ月以内に設定してください") if end_date > Date.current.since(12.months)
+      errors.add(:base, "配信終了日は開始日から12ヶ月以内に設定してください") if end_date > start_date.since(12.months)
     end
 end
