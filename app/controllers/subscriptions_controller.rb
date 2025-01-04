@@ -3,14 +3,14 @@ class SubscriptionsController < ApplicationController
     @meta_title = "配信管理"
 
     if params[:finished].present?
-      @campaigns = Campaign.subscribed_by(current_user).finished.order(start_date: :asc).page(params[:page])
+      @campaigns = Campaign.subscribed_by(Current.user).finished.order(start_date: :asc).page(params[:page])
     else
-      @campaigns = Campaign.subscribed_by(current_user).upcoming.order(start_date: :asc).page(params[:page])
+      @campaigns = Campaign.subscribed_by(Current.user).upcoming.order(start_date: :asc).page(params[:page])
     end
   end
 
   def create
-    subscription = current_user.subscriptions.new(subscription_params)
+    subscription = Current.user.subscriptions.new(subscription_params)
 
     if subscription.save
       flash[:success] = '配信の購読が完了しました！'

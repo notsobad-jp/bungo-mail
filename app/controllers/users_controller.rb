@@ -2,14 +2,14 @@ class UsersController < ApplicationController
   allow_unauthenticated_access only: %i[ new create ]
 
   def new
-    redirect_to(mypage_path) if current_user
+    redirect_to(mypage_path) if Current.user
 
     @meta_title = 'アカウント登録'
     @no_index = true
   end
 
   def create
-    user = User.find_or_initialize_by(email: user_params[:email])
+    user = User.find_or_initialize_by(email_address: user_params[:email])
 
     # すでに登録済みの場合はログイン画面へ
     if user.persisted?
@@ -27,26 +27,17 @@ class UsersController < ApplicationController
   def show
     @meta_title = 'マイページ'
     @no_index = true
-
-    # Customer PortalのURL取得
-    if current_user.stripe_customer_id
-      portal_session = Stripe::BillingPortal::Session.create(
-        customer: current_user.stripe_customer_id,
-        return_url: mypage_url,
-      ) rescue nil
-      @customer_portal_url = portal_session&.url
-    end
   end
 
   # 今のところプッシュ通知の更新にしか使ってない
   def update
-    current_user.update!(fcm_device_token: params[:token])
+    Current.user.update!(fcm_device_token: params[:token])
     head :ok
   end
 
   def destroy
     begin
-      @user = User.find_by(email: params[:email])
+      @user = User.find_by(email_address: params[:email])
       if @user.blank?
         flash[:error] = '入力されたメールアドレスで登録が確認できませんでした。入力内容をご確認いただき、それでも解決しない場合はお手数ですが運営までお問い合わせください。'
         redirect_to page_path(:unsubscribe) and return
@@ -84,7 +75,7 @@ class UsersController < ApplicationController
       {
         message: {
           name: "プッシュ通知テスト",
-          token: current_user.fcm_device_token,
+          token: Current.user.fcm_device_token,
           notification: {
             title: "プッシュ通知テスト",
             body: "ブンゴウメールのプッシュ通知テスト配信です。",

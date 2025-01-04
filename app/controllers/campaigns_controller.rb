@@ -7,11 +7,11 @@ class CampaignsController < ApplicationController
 
   def create
     authorize Campaign
-    @campaign = current_user.campaigns.new(campaign_params)
+    @campaign = Current.user.campaigns.new(campaign_params)
 
     begin
       @campaign.create_and_subscribe_and_schedule_feeds
-      BungoMailer.with(user: current_user, campaign: @campaign).schedule_completed_email.deliver_now
+      BungoMailer.with(user: Current.user, campaign: @campaign).schedule_completed_email.deliver_now
       flash[:success] = '配信予約が完了しました！予約内容をメールでお送りしていますのでご確認ください。'
       redirect_to campaign_path(@campaign)
     rescue
@@ -26,22 +26,22 @@ class CampaignsController < ApplicationController
   def show
     @campaign = Campaign.find(params[:id])
     @feeds = Feed.delivered.where(campaign_id: @campaign.id).order(position: :desc).page(params[:page]) # FIXME
-    @subscription = current_user.subscriptions.find_by(campaign_id: @campaign.id) if current_user
+    @subscription = Current.user.subscriptions.find_by(campaign_id: @campaign.id) if Current.user
     @meta_title = @campaign.author_and_book_name
     @breadcrumbs = [ {text: '配信管理', link: subscriptions_path}, {text: @meta_title} ] if @subscription
 
     # 配信期間が重複している配信が存在してるかチェック
-    if current_user && current_user.id != @campaign.user_id
-      @overlapping_campaigns = Campaign.subscribed_by(current_user).where.not(id: @campaign.id).overlapping_with(@campaign.end_date, @campaign.start_date)
+    if Current.user && Current.user.id != @campaign.user_id
+      @overlapping_campaigns = Campaign.subscribed_by(Current.user).where.not(id: @campaign.id).overlapping_with(@campaign.end_date, @campaign.start_date)
     end
   end
 
   def destroy
     @campaign = authorize Campaign.find(params[:id])
     @campaign.destroy!
-    if current_user.fcm_device_token.present?
+    if Current.user.fcm_device_token.present?
       Webpush.unsubscribe_from_topic!(
-        token: current_user.fcm_device_token,
+        token: Current.user.fcm_device_token,
         topic: @campaign.id
       )
     end
