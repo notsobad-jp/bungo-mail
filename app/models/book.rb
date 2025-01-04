@@ -276,6 +276,12 @@ class Book
       p uri
       http = Net::HTTP.new(uri.host, uri.port)
 
+      # SSL/TLS設定を追加
+      if uri.scheme == 'https'
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      end
+
       # GETパラメータをURIに設定
       uri.query = URI.encode_www_form(params) if params && method == :get
 
