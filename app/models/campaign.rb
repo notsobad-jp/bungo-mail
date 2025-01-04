@@ -71,13 +71,12 @@ class Campaign < ApplicationRecord
         queue: id,
       )
     end.compact
-    ActiveJob.perform_all_later(jobs)
+    ActiveJob.perform_all_later(jobs) # DelayedJobが対応してないので結局loopして個別にenqueueされる
   end
 
   # メール配信対象
-  ## 公式チャネルのときは有料会員全員。それ以外のときはEmailのSubscription
-  def send_to
-    user.admin? ? User.basic_plan.pluck(:email) : subscriptions.where(delivery_method: :email).preload(:user).map(&:user).pluck(:email)
+  def subscriber_emails
+    subscriptions.where(delivery_method: :email).preload(:user).map(&:user).pluck(:email)
   end
 
   def status

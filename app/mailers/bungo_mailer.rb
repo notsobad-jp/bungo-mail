@@ -1,7 +1,7 @@
 class BungoMailer < ApplicationMailer
   def feed_email
     @feed = params[:feed]
-    send_to = params[:send_to] || @feed.campaign.send_to
+    send_to = params[:send_to] || @feed.campaign.subscriber_emails
     return if send_to.blank?
 
     @word_count = @feed.content.gsub(" ", "").length
