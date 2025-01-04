@@ -273,7 +273,6 @@ class Book
     # 汎用APIcall
     def call(method: :get, path: "", params: nil)
       uri = URI.join(API_BASE_URL, path)
-      p uri
       http = Net::HTTP.new(uri.host, uri.port)
 
       # SSL/TLS設定を追加
