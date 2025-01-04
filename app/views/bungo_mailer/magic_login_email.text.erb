@@ -14,4 +14,4 @@
 ===============
 配信元: ブンゴウメール編集部
 NOT SO BAD, LLC.
-https://bungomail.com
+<%= Rails.application.credentials.dig(:hosts, "bungo-mail") %>

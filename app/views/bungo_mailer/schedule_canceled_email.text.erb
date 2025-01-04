@@ -15,5 +15,5 @@
 -------
 配信元: ブンゴウメール編集部
 NOT SO BAD, LLC.
-Web： https://bungomail.com
+Web： <%= Rails.application.credentials.dig(:hosts, "bungo-mail") %>
 E-mail: info@notsobad.jp

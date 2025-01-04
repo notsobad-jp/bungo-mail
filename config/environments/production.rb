@@ -59,13 +59,13 @@ Rails.application.configure do
   ActionMailer::Base.smtp_settings = {
     :user_name => 'apikey',
     :password => ENV['SENDGRID_API_KEY'],
-    :domain => 'bungomail.com',
+    :domain => 'mail.bungo.app',
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,
     :enable_starttls_auto => true
   }
-  config.action_mailer.default_url_options = { host: 'bungomail.com' }
+  config.action_mailer.default_url_options = { host: 'mail.bungo.app' }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   # config.action_mailer.smtp_settings = {
