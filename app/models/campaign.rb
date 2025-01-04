@@ -40,43 +40,43 @@ class Campaign < ApplicationRecord
     (end_date - start_date).to_i + 1
   end
 
-  def create_and_subscribe
+  def create_and_subscribe_and_schedule_feeds
     ActiveRecord::Base.transaction do
       save!
       user.subscribe(self, delivery_method: "webpush")
-      delay.create_and_schedule_feeds
+      create_feeds
+      schedule_feeds
     end
-  end
-
-  def create_and_schedule_feeds
-    feed_ids = create_feeds
-    Feed.find(feed_ids).map(&:schedule)
   end
 
   def create_feeds
     book = Book.find(self.book_id)
     contents = book.contents(count: count)
-    delivery_date = self.start_date
 
-    feeds = []
-    contents.each.with_index(1) do |content, index|
-      title = book.title
-      feeds << {
-        title: title,
+    feeds = contents.map.with_index do |content, index|
+      {
         content: content,
-        delivery_date: delivery_date,
+        delivery_date: start_date + index,
         campaign_id: self.id
       }
-      delivery_date += 1.day
     end
-    res = Feed.insert_all feeds
-    res.rows.flatten  # 作成したfeedのid一覧を配列で返す
+    Feed.insert_all feeds
+  end
+
+  def schedule_feeds
+    jobs = feeds.map do |feed|
+      next if feed.send_at < Time.current
+      FeedDeliveryJob.new(feed_id: id).set(
+        run_at: feed.send_at,
+        queue: id,
+      )
+    end.compact
+    ActiveJob.perform_all_later(jobs) # DelayedJobが対応してないので結局loopして個別にenqueueされる
   end
 
   # メール配信対象
-  ## 公式チャネルのときは有料会員全員。それ以外のときはEmailのSubscription
-  def send_to
-    user.admin? ? User.basic_plan.pluck(:email) : subscriptions.where(delivery_method: :email).preload(:user).map(&:user).pluck(:email)
+  def subscriber_emails
+    subscriptions.where(delivery_method: :email).preload(:user).map(&:user).pluck(:email)
   end
 
   def status
@@ -102,17 +102,17 @@ class Campaign < ApplicationRecord
 
   private
 
-  # 同一チャネルで期間が重複するレコードが存在すればinvalid(Freeプランのみ)
-  def delivery_period_should_not_overlap
-    overlapping = Campaign.where.not(id: id).where(user_id: user_id).overlapping_with(start_date, end_date)
-    errors.add(:base, "他の配信と期間が重複しています") if overlapping.present?
-  end
+    # 同一チャネルで期間が重複するレコードが存在すればinvalid(Freeプランのみ)
+    def delivery_period_should_not_overlap
+      overlapping = Campaign.where.not(id: id).where(user_id: user_id).overlapping_with(start_date, end_date)
+      errors.add(:base, "他の配信と期間が重複しています") if overlapping.present?
+    end
 
-  def end_date_should_come_after_start_date
-    errors.add(:base, "配信終了日は開始日より後に設定してください") if end_date < start_date
-  end
+    def end_date_should_come_after_start_date
+      errors.add(:base, "配信終了日は開始日より後に設定してください") if end_date < start_date
+    end
 
-  def end_date_should_not_be_too_far
-    errors.add(:base, "配信終了日は現在から12ヶ月以内に設定してください") if end_date > Date.current.since(12.months)
-  end
+    def end_date_should_not_be_too_far
+      errors.add(:base, "配信終了日は現在から12ヶ月以内に設定してください") if end_date > Date.current.since(12.months)
+    end
 end
