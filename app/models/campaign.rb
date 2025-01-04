@@ -33,7 +33,7 @@ class Campaign < ApplicationRecord
   }
 
   def author_and_book_name
-    "#{author_name}『#{title}』"
+    "#{author_name}『#{book_title}』"
   end
 
   def count
