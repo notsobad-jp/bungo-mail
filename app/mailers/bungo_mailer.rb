@@ -10,7 +10,7 @@ class BungoMailer < ApplicationMailer
     xsmtp_api_params = { to: send_to, category: 'feed' }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
 
-    mail(from: "#{sender_name} <bungomail@notsobad.jp>", subject: @feed.campaign.title)
+    mail(from: "#{sender_name} <bungomail@notsobad.jp>", subject: @feed.campaign.book_title)
   end
 
   def magic_login_email

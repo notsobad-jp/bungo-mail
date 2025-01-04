@@ -17,11 +17,9 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @campaign = Campaign.new(
       book_id: params[:id],
-      book_type: 'AozoraBook',
       color: Campaign.colors.keys.sample,
       pattern: Campaign.patterns.keys.sample,
       title: @book.title,
-      file_id: @book.fileId,
       author_name: @book.author_name,
       start_date: params[:start_date],
       end_date: params[:end_date],
