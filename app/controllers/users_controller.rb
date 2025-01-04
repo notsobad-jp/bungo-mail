@@ -94,7 +94,7 @@ class UsersController < ApplicationController
           notification: {
             title: "プッシュ通知テスト",
             body: "ブンゴウメールのプッシュ通知テスト配信です。",
-            image: "https://bungomail.com/favicon.ico",
+            image: Rails.application.credentials.dig(:hosts, "bungo-mail") + "/favicon.ico",
           },
           webpush: {
             fcm_options: {

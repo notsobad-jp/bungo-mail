@@ -36,11 +36,11 @@ class Feed < ApplicationRecord
           notification: {
             title: campaign.author_and_book_name,
             body: content.truncate(100),
-            image: "https://bungomail.com/favicon.ico",
+            image: "https://mail.bungo.app/favicon.ico",
           },
           webpush: {
             fcm_options: {
-              link: feed_url(id, host: Rails.env.production? ? "https://bungomail.com" : "http://localhost:3000"),
+              link: feed_url(id, host: Rails.application.credentials.dig(:hosts, "bungo-mail")),
             }
           },
         }

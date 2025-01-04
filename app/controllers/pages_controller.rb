@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   def dogramagra
     @meta_title = "ドグラ・マグラ365日配信チャレンジ"
     @meta_description = "夢野久作『ドグラ・マグラ』を、365日かけて毎日メールで少しずつ配信します。"
-    @meta_image = "https://bungomail.com/assets/images/campaigns/dogramagra.png"
+    @meta_image = Rails.application.credentials.dig(:hosts, "bungo-mail") + "/assets/images/campaigns/dogramagra.png"
   end
 
   def past_campaigns
