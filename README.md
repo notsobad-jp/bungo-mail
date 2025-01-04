@@ -26,3 +26,10 @@ FCMでプッシュ通知を使うために、`/functions`配下にfirebase用の
 cd functions
 npm install
 ```
+
+## credentialsの設定
+
+```bash
+docker-compose run --rm -e EDITOR=vim web rails credentials:edit
+docker-compose run --rm -e EDITOR=vim web rails credentials:edit -e production # 本番用
+```

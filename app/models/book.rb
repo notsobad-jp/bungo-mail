@@ -4,7 +4,7 @@ class Book
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  API_BASE_URL = "http://host.docker.internal:8787"
+  API_BASE_URL = Rails.application.credentials.dig("bungo-api", :endpoint)
   PER_PAGE = 50
 
   # アクセス数に対する評価(PV数)
