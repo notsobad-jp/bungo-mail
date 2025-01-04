@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   def dogramagra
     @meta_title = "ドグラ・マグラ365日配信チャレンジ"
     @meta_description = "夢野久作『ドグラ・マグラ』を、365日かけて毎日メールで少しずつ配信します。"
-    @meta_image = helpers.image_url("campaigns/dogramagra.png")
+    @meta_image = helpers.image_url("channels/dogramagra.png")
   end
 
   def past_campaigns
