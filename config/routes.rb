@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
 
   get 'login' => 'sessions#new'
-  get 'logout' => 'sessions#destroy'
+  delete 'logout' => 'sessions#destroy'
   get 'mypage' => 'users#show'
   get 'signup' => 'users#new'
   get 'past_campaigns' => "pages#past_campaigns"

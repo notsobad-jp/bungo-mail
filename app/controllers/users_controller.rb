@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   # 今のところプッシュ通知の更新にしか使ってない
   def update
-    Current.user.update!(fcm_device_token: params[:token])
+    Current.user.update_attribute!(:fcm_device_token, params[:token])
     head :ok
   end
 

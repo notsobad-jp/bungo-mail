@@ -1,4 +1,4 @@
-.mb-2.rounded.text-center.text-white.py-10.px-12.bg-blend-multiply(class="bg-#{campaign.color}-700" style="background-image: url('/assets/images/#{campaign.pattern}.png')")
+.mb-2.rounded.text-center.text-white.py-10.px-12.bg-blend-multiply(class="bg-#{campaign.color}-700" style="background-image: url('#{image_url("backgrounds/#{campaign.pattern}.png")}')")
   %h1(class="mb-2 sm:mb-4 text-2xl sm:text-4xl font-bold font-mincho")
     = campaign.book_title
   .text-large.font-mincho
