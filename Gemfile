@@ -4,8 +4,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.1'
 gem 'rails', '8.0.1'
 
-gem 'csv'
+gem "bcrypt"
 gem 'bootsnap', require: false
+gem 'csv'
 gem 'dotenv-rails'
 gem 'delayed_job_active_record'
 gem 'google-api-client'
@@ -53,5 +54,3 @@ end
 group :production do
   gem 'scout_apm'
 end
-
-gem "bcrypt", "~> 3.1"

@@ -421,7 +421,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bcrypt (~> 3.1)
+  bcrypt
   bootsnap
   byebug
   csv
@@ -465,4 +465,4 @@ RUBY VERSION
    ruby 3.4.1p0
 
 BUNDLED WITH
-   2.6.2
+   2.4.12
