@@ -22,7 +22,6 @@ gem 'propshaft'
 gem 'puma'
 gem 'pundit'
 gem 'rails-i18n'
-gem 'sorcery'
 gem 'stimulus-rails'
 gem 'stripe'
 gem "tailwindcss-rails"

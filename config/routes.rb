@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     post :webpush_test, on: :member
   end
 
+  get 'login' => 'sessions#new'
+  get 'logout' => 'sessions#destroy'
   get 'mypage' => 'users#show'
   get 'signup' => 'users#new'
   get 'past_campaigns' => "pages#past_campaigns"

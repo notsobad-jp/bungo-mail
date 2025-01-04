@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
-  include Authentication
   protect_from_forgery
+  include Authentication
   include Pundit::Authorization
 
   rescue_from ActiveRecord::RecordNotFound,   with: :render_404

@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :require_login, only: [:index]
+  allow_unauthenticated_access only: %i[ show ]
 
   def index
     @keyword = params[:keyword].presence

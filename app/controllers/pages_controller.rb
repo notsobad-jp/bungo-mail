@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  allow_unauthenticated_access
+
   def lp
     @meta_title = 'ブンゴウメール | 1日3分のメールでムリせず毎月1冊本が読める、忙しいあなたのための読書サポートサービス'
     @meta_description = '青空文庫の作品を小分けにして、毎朝メールで配信。気づいたら毎月1冊本が読めてしまう、忙しいあなたのための読書サポートサービスです。'

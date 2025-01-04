@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  before_action :require_login, only: [:index, :create, :destroy]
+  allow_unauthenticated_access only: %i[ index show ]
   after_action :verify_authorized, only: [:create, :destroy]
 
   def index
