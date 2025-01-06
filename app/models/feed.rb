@@ -40,7 +40,7 @@ class Feed < ApplicationRecord
           },
           webpush: {
             fcm_options: {
-              link: feed_url(id),
+              link: feed_url(id, host: Rails.application.credentials.dig(:hosts, "bungo-mail")),
             }
           },
         }
