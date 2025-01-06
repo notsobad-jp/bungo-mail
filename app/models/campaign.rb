@@ -44,9 +44,8 @@ class Campaign < ApplicationRecord
     ActiveRecord::Base.transaction do
       save!
       user.subscribe(campaign: self, delivery_method:)
-      create_feeds
-      schedule_feeds
     end
+    CreateAndScheduleFeedsJob.perform_later(campaign_id: id)
   end
 
   def create_feeds
