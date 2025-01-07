@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.find_or_initialize_by(email_address: user_params[:email])
+    user = User.find_or_initialize_by(email_address: user_params[:email_address])
 
     # すでに登録済みの場合はログイン画面へ
     if user.persisted?
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
   def destroy
     begin
-      @user = User.find_by(email_address: params[:email])
+      @user = User.find_by(email_address: params[:email_address])
       if @user.blank?
         flash[:error] = '入力されたメールアドレスで登録が確認できませんでした。入力内容をご確認いただき、それでも解決しない場合はお手数ですが運営までお問い合わせください。'
         redirect_to page_path(:unsubscribe) and return
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
       flash[:success] = '退会処理を完了しました。すべての課金とメール配信を停止します。これまでのご利用ありがとうございました。'
       redirect_to params[:redirect_to] || root_path
     rescue => e
-      logger.error "[Error]Unsubscription failed: #{e.message}, #{params[:email]}"
+      logger.error "[Error]Unsubscription failed: #{e.message}, #{params[:email_address]}"
       flash[:error] = '処理に失敗しました。。何回か試してもうまくいかない場合、お手数ですが運営までお問い合わせください。'
       redirect_to page_path(:unsubscribe)
     end
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:email)
+      params.require(:user).permit(:email_address)
     end
 
     def webpush_payload
