@@ -3,17 +3,11 @@ class ApplicationController < ActionController::Base
   include Authentication
   include Pundit::Authorization
 
-  helper_method :current_user
-
   rescue_from ActiveRecord::RecordNotFound,   with: :render_404
   rescue_from ActionController::RoutingError, with: :render_404
   rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
   private
-
-    def current_user
-      Current.user
-    end
 
     def not_authorized
       flash[:warning] = '現在の契約プランではこの機能は利用できません'
