@@ -3,24 +3,29 @@ class PasswordsController < ApplicationController
   before_action :set_user_by_token, only: %i[ edit update ]
 
   def new
+    @meta_title = "パスワード再設定"
   end
 
   def create
     if user = User.find_by(email_address: params[:email_address])
-      PasswordsMailer.reset(user).deliver_later
+      PasswordsMailer.reset(user).deliver_now
     end
 
-    redirect_to new_session_path, notice: "Password reset instructions sent (if user with that email address exists)."
+    flash[:info] = "パスワード再設定メールをお送りしました。メール内のURLからパスワードを再設定してください。"
+    redirect_to new_session_path
   end
 
   def edit
+    @meta_title = "パスワード再設定"
   end
 
   def update
     if @user.update(params.permit(:password, :password_confirmation))
-      redirect_to new_session_path, notice: "Password has been reset."
+      flash[:success] = "パスワードを更新しました！"
+      redirect_to new_session_path
     else
-      redirect_to edit_password_path(params[:token]), alert: "Passwords did not match."
+      flash[:error] = "パスワードが一致しません。もう一度ご確認ください。"
+      redirect_to edit_password_path(params[:token])
     end
   end
 
