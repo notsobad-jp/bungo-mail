@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   include Authentication
   include Pundit::Authorization
 
+  helper_method :current_user
+
   rescue_from ActiveRecord::RecordNotFound,   with: :render_404
   rescue_from ActionController::RoutingError, with: :render_404
   rescue_from Pundit::NotAuthorizedError, with: :not_authorized
