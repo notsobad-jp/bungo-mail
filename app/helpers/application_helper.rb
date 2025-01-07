@@ -27,4 +27,8 @@ module ApplicationHelper
 
     content_tag(:span, category[:name], class: "text-xs rounded border px-2 py-1 #{text_color} #{border_color}")
   end
+
+  def current_user
+    Current.user
+  end
 end
