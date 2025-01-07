@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  before_action :require_login, only: [:index, :create, :destroy]
+  allow_unauthenticated_access only: %i[ index show ]
   after_action :verify_authorized, only: [:create, :destroy]
 
   def index
@@ -26,12 +26,12 @@ class CampaignsController < ApplicationController
   def show
     @campaign = Campaign.find(params[:id])
     @feeds = Feed.delivered.where(campaign_id: @campaign.id).order(position: :desc).page(params[:page]) # FIXME
-    @subscription = current_user.subscriptions.find_by(campaign_id: @campaign.id) if current_user
+    @subscription = current_user.subscriptions.find_by(campaign_id: @campaign.id) if authenticated?
     @meta_title = @campaign.author_and_book_name
     @breadcrumbs = [ {text: '配信管理', link: subscriptions_path}, {text: @meta_title} ] if @subscription
 
     # 配信期間が重複している配信が存在してるかチェック
-    if current_user && current_user.id != @campaign.user_id
+    if authenticated? && current_user.id != @campaign.user_id
       @overlapping_campaigns = Campaign.subscribed_by(current_user).where.not(id: @campaign.id).overlapping_with(@campaign.end_date, @campaign.start_date)
     end
   end

@@ -4,8 +4,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.1'
 gem 'rails', '8.0.1'
 
-gem 'csv'
+gem "bcrypt"
 gem 'bootsnap', require: false
+gem 'csv'
 gem 'dotenv-rails'
 gem 'delayed_job_active_record'
 gem 'google-api-client'
@@ -21,7 +22,6 @@ gem 'propshaft'
 gem 'puma'
 gem 'pundit'
 gem 'rails-i18n'
-gem 'sorcery'
 gem 'stimulus-rails'
 gem 'stripe'
 gem "tailwindcss-rails"

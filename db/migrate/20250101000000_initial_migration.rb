@@ -62,25 +62,29 @@ class InitialMigration < ActiveRecord::Migration[7.0]
     end
 
     create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-      t.string "email", null: false
-      t.string "crypted_password"
-      t.string "salt"
+      t.string "email_address", null: false
+      t.string "password_digest", null: false
       t.string "stripe_customer_id"
       t.date "trial_start_date"
       t.date "trial_end_date"
       t.string "plan", default: "free", null: false
-      t.string "magic_login_token"
-      t.datetime "magic_login_token_expires_at", precision: nil
-      t.datetime "magic_login_email_sent_at", precision: nil
       t.string "fcm_device_token"
       t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
       t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
-      t.index ["email"], name: "index_users_on_email", unique: true
-      t.index ["magic_login_token"], name: "index_users_on_magic_login_token"
+      t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    end
+
+    create_table :sessions, id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade  do |t|
+      t.uuid :user_id, null: false
+      t.string :ip_address
+      t.string :user_agent
+      t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+      t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     end
 
     add_foreign_key "campaigns", "users", on_delete: :cascade
     add_foreign_key "feeds", "campaigns", on_delete: :cascade
+    add_foreign_key "sessions", "users", on_delete: :cascade
     add_foreign_key "subscriptions", "campaigns", on_delete: :cascade
     add_foreign_key "subscriptions", "users", on_delete: :cascade
   end

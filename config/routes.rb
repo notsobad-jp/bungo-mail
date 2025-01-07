@@ -5,18 +5,15 @@ Rails.application.routes.draw do
   resources :campaigns, shallow: true do
     resources :feeds
   end
-  resources :magic_tokens
+  resources :passwords, param: :token
   resources :subscriptions
+
+  resource :session
   resource :user do
     post :webpush_test, on: :member
   end
 
-  get 'auth' => 'magic_tokens#auth'
-  get 'login' => 'magic_tokens#new'
-  delete 'logout' => 'magic_tokens#destroy'
   get 'mypage' => 'users#show'
-  get 'signup' => 'users#new'
-
   get 'past_campaigns' => "pages#past_campaigns"
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

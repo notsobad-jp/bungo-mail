@@ -1,29 +1,17 @@
 class User < ApplicationRecord
-  authenticates_with_sorcery!
-
+  has_secure_password
+  has_many :sessions, dependent: :destroy
   has_many :campaigns, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
+
+  normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   scope :activated_in_stripe, -> (active_emails) { where(plan: :free).where(email: active_emails) }  # stripeで購読したけどまだDBの支払いステータスに反映されていないuser
   scope :canceled_in_stripe, -> (active_emails) { where(plan: :basic).where.not(email: active_emails) }  # stripeで解約したけどまだDBの支払いステータスに反映されていないuser
 
   enum :plan, { free_plan: "free", basic_plan: "basic" }
 
-  validates :email, presence: true, uniqueness: true
-
-  # activation実行に必要なのでダミーのパスワードを設定
-  ## before_validateでcryptedの作成処理が走るので、それより先に用意できるようにafter_initializeを使用
-  after_initialize do
-    self.password = SecureRandom.hex(10)
-  end
-
-  def admin?
-    email == "info@notsobad.jp"
-  end
-
-  def digest
-    Digest::SHA256.hexdigest(email)
-  end
+  validates :email_address, presence: true, uniqueness: true
 
   def subscribe(campaign:, delivery_method:)
     subscriptions.create(campaign:, delivery_method:)

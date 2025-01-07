@@ -1,0 +1,17 @@
+<h1 class="font-bold text-2xl">
+  パスワード再設定
+</h1>
+
+<%= form_with url: password_path(params[:token]), method: :put, class: "max-w-lg" do |form| %>
+  <div class="my-5">
+    <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "新しいパスワード", maxlength: 72, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "新しいパスワード（確認）", maxlength: 72, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit "パスワードを更新する", class: "flex-1 rounded block py-3 px-4 bg-blue-600 text-white text-sm hover:opacity-75 cursor-pointer" %>
+  </div>
+<% end %>

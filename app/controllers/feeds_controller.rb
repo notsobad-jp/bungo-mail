@@ -1,4 +1,6 @@
 class FeedsController < ApplicationController
+  allow_unauthenticated_access only: %i[ show ]
+
   def show
     @feed = Feed.find(params[:id])
     @campaign = @feed.campaign
