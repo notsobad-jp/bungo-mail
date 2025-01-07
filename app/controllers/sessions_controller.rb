@@ -12,7 +12,8 @@ class SessionsController < ApplicationController
       start_new_session_for user
       redirect_to after_authentication_url
     else
-      redirect_to new_session_path, alert: "ログインに失敗しました。。。メールアドレスとパスワードを再度ご確認ください。"
+      flash[:error] = "ログインに失敗しました。。。メールアドレスとパスワードを再度ご確認ください。"
+      redirect_to new_session_path
     end
   end
 
