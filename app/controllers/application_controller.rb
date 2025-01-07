@@ -9,14 +9,14 @@ class ApplicationController < ActionController::Base
 
   private
 
-    def not_authorized
-      flash[:warning] = '現在の契約プランではこの機能は利用できません'
-      redirect_to request.referer || login_path
-    end
-
     def not_authenticated
       flash[:warning] = 'ログインしてください。'
-      redirect_to login_path
+      redirect_to new_session_path
+    end
+
+    def not_authorized
+      flash[:warning] = '現在の契約プランではこの機能は利用できません'
+      redirect_to request.referer || new_session_path
     end
 
     def render_404(error = nil)

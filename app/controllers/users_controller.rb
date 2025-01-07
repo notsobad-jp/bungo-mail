@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     # すでに登録済みの場合はログイン画面へ
     if user.persisted?
       flash[:error] = 'このメールアドレスはすでに登録されています。登録情報を確認・更新したい場合はログインしてください。'
-      redirect_to(login_path) and return
+      redirect_to(new_session_path) and return
     end
 
     user.save
