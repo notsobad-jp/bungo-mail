@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   # 今のところプッシュ通知の更新にしか使ってない
   def update
-    Current.user.update_attribute!(:fcm_device_token, params[:token])
+    current_user.update_attribute!(:fcm_device_token, params[:token])
     head :ok
   end
 
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
       {
         message: {
           name: "プッシュ通知テスト",
-          token: Current.user.fcm_device_token,
+          token: current_user.fcm_device_token,
           notification: {
             title: "プッシュ通知テスト",
             body: "ブンゴウメールのプッシュ通知テスト配信です。",
