@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   enum :plan, { free_plan: "free", basic_plan: "basic" }
 
-  validates :email, presence: true, uniqueness: true
+  validates :email_address, presence: true, uniqueness: true
 
   def subscribe(campaign:, delivery_method:)
     subscriptions.create(campaign:, delivery_method:)
