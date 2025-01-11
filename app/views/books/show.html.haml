@@ -49,7 +49,7 @@
       %div
         - if !authenticated?
           = f.select :delivery_method,
-            Subscription.delivery_methods,
+            Subscription.enum_options_for_select(:delivery_method),
             { include_blank: "-- 選択してください --", required: true },
             class: 'border border-gray-200 rounded w-full p-2'
         - else
@@ -63,7 +63,7 @@
                 が必要です
           - else
             = f.select :delivery_method,
-              Subscription.delivery_methods,
+              Subscription.enum_options_for_select(:delivery_method),
               { include_blank: "-- 選択してください --", selected: :webpush, disabled: [:email], required: true },
               class: 'border border-gray-200 rounded w-full p-2'
   .mb-4

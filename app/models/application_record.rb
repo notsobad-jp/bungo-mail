@@ -5,6 +5,10 @@ class ApplicationRecord < ActiveRecord::Base
     self.class.human_attribute_enum_value(attr_name, self[attr_name], locale)
   end
 
+  def self.enum_options_for_select(attr_name, locale = I18n.locale)
+    self.send(attr_name.to_s.pluralize).map { |k, _| [self.human_attribute_enum_value(attr_name, k, locale), k] }.to_h
+  end
+
   def self.human_attribute_enum_value(attr_name, value, locale = I18n.locale)
     # モデル別のカラムで翻訳が定義されてるか探して、なければ例外を投げる
     I18n.t!("#{attr_name.to_s.pluralize}.#{value}", scope: [:activerecord, :attributes, self.model_name.i18n_key], locale: locale)
