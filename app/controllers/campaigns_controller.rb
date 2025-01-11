@@ -45,6 +45,11 @@ class CampaignsController < ApplicationController
     redirect_to subscriptions_path, status: 303
   end
 
+  def feed
+    @campaign = Campaign.find(params[:id])
+    @feeds = @campaign.feeds.delivered.order('feeds.position DESC').limit(20)
+  end
+
   private
 
   def campaign_params

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :books, only: [:index, :show]
   resources :campaigns, shallow: true do
     resources :feeds
+    get :feed, on: :member, defaults: { format: :rss }
   end
   resources :passwords, param: :token
   resources :subscriptions
