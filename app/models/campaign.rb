@@ -24,13 +24,13 @@ class Campaign < ApplicationRecord
     teal: "teal", # bg-teal-700
     yellow: "yellow", # bg-yellow-700
     slate: "slate", # bg-slate-700
-  }
+  }, prefix: true
 
   enum :pattern, {
     seigaiha: "seigaiha",
     asanoha: "asanoha",
     sayagata: "sayagata",
-  }
+  }, prefix: true
 
   def author_and_book_name
     "#{author_name}『#{book_title}』"

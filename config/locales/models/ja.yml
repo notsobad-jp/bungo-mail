@@ -5,6 +5,10 @@ ja:
         email_address: メールアドレス
         password: パスワード
         password_confirmation: パスワード（確認）
+      subscription:
+        delivery_methods:
+          webpush: プッシュ通知
+          email: Eメール
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
