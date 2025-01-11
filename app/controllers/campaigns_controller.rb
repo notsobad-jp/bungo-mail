@@ -11,7 +11,7 @@ class CampaignsController < ApplicationController
 
     begin
       @campaign.create_and_subscribe_and_schedule_feeds
-      CampaignMailer.with(user: current_user, campaign: @campaign).scheduled.deliver_now
+      CampaignMailer.with(user: current_user, campaign: @campaign).scheduled.deliver_later
       flash[:success] = '配信予約が完了しました！予約内容をメールでお送りしていますのでご確認ください。'
       redirect_to campaign_path(@campaign)
     rescue
@@ -38,8 +38,9 @@ class CampaignsController < ApplicationController
 
   def destroy
     @campaign = authorize Campaign.find(params[:id])
+    CampaignMailer.with(user: current_user, author_and_book_name: @campaign.author_and_book_name, delivery_period: @campaign.delivery_period).canceled.deliver_later
     @campaign.destroy!
-    CampaignMailer.with(user: current_user, campaign: @campaign).canceled.deliver_now
+
     flash[:success] = '配信を削除しました！'
     redirect_to subscriptions_path, status: 303
   end

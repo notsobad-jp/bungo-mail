@@ -13,13 +13,6 @@ class FeedMailer < ApplicationMailer
     mail(from: "#{sender_name} <bungomail@notsobad.jp>", subject: @feed.campaign.book_title)
   end
 
-  def webpush_failed
-    @user = params[:user]
-    xsmtp_api_params = { category: 'webpush_failed' }
-    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
-    mail(to: @user.email, subject: "【ブンゴウメール】プッシュ通知の送信に失敗しました")
-  end
-
 
   private
 
