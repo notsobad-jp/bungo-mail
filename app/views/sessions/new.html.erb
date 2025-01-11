@@ -13,7 +13,7 @@
 
   <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
     <div class="inline">
-      <%= form.submit "ログイン", class: "flex-1 rounded block py-3 px-4 bg-blue-600 text-white text-sm hover:opacity-75 cursor-pointer" %>
+      <%= form.submit "ログイン", class: "flex-1 w-full sm:w-auto rounded block py-3 px-4 bg-blue-600 text-white text-sm hover:opacity-75 cursor-pointer" %>
     </div>
 
     <div class="mt-4 text-sm text-gray-500 sm:mt-0">
@@ -21,3 +21,11 @@
     </div>
   </div>
 <% end %>
+
+<hr class="my-8" />
+
+<div class="mt-4 text-sm text-gray-500 sm:mt-0">
+  ※初めてご利用の場合は
+  <%= link_to "アカウント登録", new_user_path, class: "text-gray-700 underline" %>
+  をしてください。
+</div>
