@@ -4,13 +4,13 @@
 .mb-12
   -# 自分が配信オーナー && 配信がまだ未完了
   - if current_user == @campaign.user && @campaign.status != "配信終了"
-    = link_to campaign_path, data: { turbo_method: :delete, turbo_confirm: "この配信を削除します。本当によろしいですか？" }, local: true, class: "inline-block text-center w-full sm:w-auto px-4 py-2.5 border border-transparent rounded-md text-white bg-red-600 hover:bg-red-700" do
+    = link_to campaign_path, data: { turbo_method: :delete, turbo_confirm: "この配信を削除します。本当によろしいですか？" }, local: true, class: "btn btn-danger" do
       %span 配信を削除する
 
   -# 他ユーザーの配信
   - if authenticated? && current_user != @campaign.user
     - if @subscription.present?
-      = link_to subscription_path(@subscription), data: { turbo_method: :delete, turbo_confirm: "この配信の購読を解除します。本当によろしいですか？" }, local: true, class: "inline-block text-center w-full sm:w-auto px-4 py-2.5 border border-transparent rounded-md text-white bg-red-600 hover:bg-red-700" do
+      = link_to subscription_path(@subscription), data: { turbo_method: :delete, turbo_confirm: "この配信の購読を解除します。本当によろしいですか？" }, local: true, class: "btn btn-danger" do
         %span 購読を解除する
     - elsif @overlapping_campaigns.present?
       .px-4.py-2.rounded.bg-yellow-50.border.border-yellow-500.text-yellow-700
@@ -32,7 +32,7 @@
               %label.flex.items-center.space-x-2
                 = f.radio_button :delivery_method, :email, disabled: !current_user.basic_plan?, class: "peer disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50"
                 %span(class="peer-disabled:text-gray-400 peer-disabled:cursor-not-allowed") Eメール
-            = f.submit "この配信を購読する", class: "cursor-pointer text-center w-full sm:w-auto px-4 py-2.5 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50", disabled: current_user.webpush_auth.blank? && !current_user.basic_plan?
+            = f.submit "この配信を購読する", class: "btn btn-danger", disabled: current_user.webpush_auth.blank? && !current_user.basic_plan?
       - if current_user.webpush_auth.blank?
         .mt-2.text-sm.text-gray-500
           ※プッシュ通知での購読は、

@@ -6,12 +6,17 @@
   .text-link {
     @apply text-blue-700 hover:text-blue-800 visited:text-purple-600;
   }
-  .full-bleed {
-    width: 100vw;
-    margin-left: 50%;
-    -webkit-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    transform: translateX(-50%);
+
+  .btn {
+    @apply inline-block w-full sm:w-auto py-2.5 px-4 rounded shadow text-center  text-white cursor-pointer hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-75;
+  }
+
+  .btn-primary {
+    @apply bg-indigo-600 focus-visible:outline-indigo-600;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 focus-visible:outline-red-600;
   }
 }
 
