@@ -1,5 +1,5 @@
-class BungoMailer < ApplicationMailer
-  def feed_email
+class FeedMailer < ApplicationMailer
+  def feed
     @feed = params[:feed]
     send_to = params[:send_to] || @feed.campaign.subscriber_emails
     return if send_to.blank?
@@ -13,7 +13,7 @@ class BungoMailer < ApplicationMailer
     mail(from: "#{sender_name} <bungomail@notsobad.jp>", subject: @feed.campaign.book_title)
   end
 
-  def webpush_failed_email
+  def webpush_failed
     @user = params[:user]
     xsmtp_api_params = { category: 'webpush_failed' }
     headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
