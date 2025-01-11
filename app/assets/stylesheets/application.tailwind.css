@@ -8,7 +8,7 @@
   }
 
   .btn {
-    @apply inline-block w-full sm:w-auto py-3 px-3.5 rounded shadow text-center  text-white cursor-pointer hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-75;
+    @apply inline-block w-full sm:w-auto py-2.5 px-4 rounded shadow text-center  text-white cursor-pointer hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-75;
   }
 
   .btn-primary {
