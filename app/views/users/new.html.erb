@@ -1,0 +1,29 @@
+<h1 class="font-bold text-2xl">
+  アカウント登録
+</h1>
+
+<%= form_with model: @user, url: user_path, class: "max-w-lg" do |form| %>
+  <div class="my-5">
+    <%= form.email_field :email_address, required: true, autofocus: true, placeholder: "メールアドレス", value: params[:email_address], class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.password_field :password, required: true, placeholder: "パスワード", maxlength: 72, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.password_field :password_confirmation, required: true, placeholder: "パスワード（確認）", maxlength: 72, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
+  </div>
+
+  <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+    <div class="inline">
+      <%= form.submit "登録する", class: "flex-1 rounded block py-3 px-4 bg-blue-600 text-white text-sm hover:opacity-75 cursor-pointer" %>
+    </div>
+
+    <div class="mt-4 text-sm text-gray-500 sm:mt-0">
+      アカウントをお持ちの場合は
+      <%= link_to "ログイン", new_session_path, class: "text-gray-700 underline" %>
+      してください。
+    </div>
+  </div>
+<% end %>
