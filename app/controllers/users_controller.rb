@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
     if @user.save
       start_new_session_for @user
-      UsersMailer.registered(@user).deliver_later
+      UserMailer.registered(@user).deliver_later
       redirect_to(mypage_path, flash: { success: 'ユーザー登録が完了しました！' })
     else
       flash.now[:error] = @user.errors.full_messages.join('. ')

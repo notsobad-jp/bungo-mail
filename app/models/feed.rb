@@ -14,7 +14,7 @@ class Feed < ApplicationRecord
   }
 
   def deliver
-    BungoMailer.with(feed: self).feed_email.deliver_now
+    FeedMailer.with(feed: self).feed.deliver_now
     Webpush.notify(webpush_payload)
   end
 

@@ -1,12 +1,18 @@
-ブンゴウメールへのご登録ありがとうございます。
-ユーザー登録が完了しました。
+以下の内容でカスタム配信の予約を完了しました。
 
-以下のリンクからログインしてください。
-<%= @url %>
+▼配信作品:
+<%= @campaign.author_and_book_name %>
 
-ログインしたら、好きな本を探して配信してみましょう。
-詳しい手順は以下の使い方ガイドをご覧ください。
-https://notsobad-jp.notion.site/8653a28b29874717b305a59feeb09c64
+▼配信期間:
+<%= @campaign.start_date %> 〜 <%= @campaign.end_date %>
+
+▼配信時間:
+<%= @campaign.delivery_time.strftime("%H:%M") %>
+
+
+配信停止をご希望の場合は、、以下のURLからいつでもこの配信をキャンセルすることができます。
+<%= campaign_url(@campaign) %>
+
 
 -------
 

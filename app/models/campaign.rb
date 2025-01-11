@@ -62,6 +62,10 @@ class Campaign < ApplicationRecord
     Feed.insert_all feeds
   end
 
+  def delivery_period
+    "#{start_date} 〜 #{end_date}"
+  end
+
   def schedule_feeds
     jobs = feeds.map do |feed|
       next if feed.send_at < Time.current
