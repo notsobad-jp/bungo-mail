@@ -11,7 +11,7 @@ class CampaignsController < ApplicationController
 
     begin
       @campaign.create_and_subscribe_and_schedule_feeds
-      BungoMailer.with(user: current_user, campaign: @campaign).schedule_completed_email.deliver_now
+      CampaignMailer.with(user: current_user, campaign: @campaign).scheduled.deliver_now
       flash[:success] = '配信予約が完了しました！予約内容をメールでお送りしていますのでご確認ください。'
       redirect_to campaign_path(@campaign)
     rescue
@@ -39,13 +39,7 @@ class CampaignsController < ApplicationController
   def destroy
     @campaign = authorize Campaign.find(params[:id])
     @campaign.destroy!
-    if current_user.fcm_device_token.present?
-      Webpush.unsubscribe_from_topic!(
-        token: current_user.fcm_device_token,
-        topic: @campaign.id
-      )
-    end
-    BungoMailer.with(user: @campaign.user, author_title: @campaign.author_and_book_name, delivery_period: "#{@campaign.start_date} 〜 #{@campaign.end_date}").schedule_canceled_email.deliver_now
+    CampaignMailer.with(user: current_user, campaign: @campaign).canceled.deliver_now
     flash[:success] = '配信を削除しました！'
     redirect_to subscriptions_path, status: 303
   end

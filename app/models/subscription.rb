@@ -12,4 +12,13 @@ class Subscription < ApplicationRecord
       )
     end
   end
+
+  after_destroy do
+    if delivery_method == "プッシュ通知" && user.fcm_device_token.present?
+      Webpush.unsubscribe_from_topic!(
+        token: user.fcm_device_token,
+        topic: campaign_id
+      )
+    end
+  end
 end

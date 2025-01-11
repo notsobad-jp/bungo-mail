@@ -13,32 +13,6 @@ class BungoMailer < ApplicationMailer
     mail(from: "#{sender_name} <bungomail@notsobad.jp>", subject: @feed.campaign.book_title)
   end
 
-  def schedule_canceled_email
-    @user = params[:user]
-    @author_title = params[:author_title]
-    @delivery_period = params[:delivery_period]
-    xsmtp_api_params = { category: 'schedule_canceled' }
-    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
-    mail(to: @user.email, subject: "【ブンゴウメール】配信予約をキャンセルしました")
-  end
-
-  def schedule_completed_email
-    @user = params[:user]
-    @campaign = params[:campaign]
-    xsmtp_api_params = { category: 'schedule_completed' }
-    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
-    mail(to: @user.email, subject: "【ブンゴウメール】配信予約が完了しました")
-  end
-
-  def user_registered_email
-    @user = params[:user]
-    @url  = URI.join(root_url, "/auth?token=#{@user.magic_login_token}")
-
-    xsmtp_api_params = { category: 'user_registered' }
-    headers['X-SMTPAPI'] = JSON.generate(xsmtp_api_params)
-    mail(to: @user.email, subject: "【ブンゴウメール】ユーザー登録が完了しました")
-  end
-
   def webpush_failed_email
     @user = params[:user]
     xsmtp_api_params = { category: 'webpush_failed' }
