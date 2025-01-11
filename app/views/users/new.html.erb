@@ -3,17 +3,24 @@
 </h1>
 
 <%= form_with model: @user, url: user_path, class: "max-w-lg" do |form| %>
-  <div class="my-5">
+  <div class="my-8">
+    <%= form.label :email_address, "メールアドレス", class: "block mb-2" %>
     <%= form.email_field :email_address, required: true, autofocus: true, placeholder: "メールアドレス", value: params[:email_address], class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
   </div>
 
-  <div class="my-5">
-    <%= form.password_field :password, required: true, placeholder: "パスワード", maxlength: 72, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
+  <div class="my-8">
+    <%= form.label :password, "パスワード", class: "block mb-2" %>
+
+    <div class="space-y-2 mb-2">
+      <%= form.password_field :password, required: true, placeholder: "パスワード", pattern: User::VALID_PASSWORD_PATTERN, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
+      <%= form.password_field :password_confirmation, required: true, placeholder: "パスワード（確認）",  pattern: User::VALID_PASSWORD_PATTERN, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
+    </div>
+
+    <small class="text-xs">
+      ※パスワードは10文字以上で、英大文字・小文字・数字それぞれ1文字以上含む必要があります
+    </small>
   </div>
 
-  <div class="my-5">
-    <%= form.password_field :password_confirmation, required: true, placeholder: "パスワード（確認）", maxlength: 72, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
-  </div>
 
   <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
     <div class="inline">
