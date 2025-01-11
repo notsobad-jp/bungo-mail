@@ -1,23 +1,33 @@
-<h1 class="font-bold text-2xl">
-  ログイン
-</h1>
+<div class="max-w-lg">
+  <h1 class="font-bold text-2xl">
+    ログイン
+  </h1>
 
-<%= form_with url: session_url, class: "max-w-lg" do |form| %>
-  <div class="my-5">
-    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "メールアドレス", value: params[:email_address], class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "パスワード", maxlength: 72, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
-  </div>
-
-  <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-    <div class="inline">
-      <%= form.submit "ログイン", class: "flex-1 rounded block py-3 px-4 bg-blue-600 text-white text-sm hover:opacity-75 cursor-pointer" %>
+  <%= form_with url: session_url do |form| %>
+    <div class="my-5">
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "メールアドレス", value: params[:email_address], class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
     </div>
 
-    <div class="mt-4 text-sm text-gray-500 sm:mt-0">
-      <%= link_to "パスワードを忘れた場合", new_password_path, class: "text-gray-700 underline" %>
+    <div class="my-5">
+      <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "パスワード", maxlength: 72, class: "block rounded border border-gray-200 focus:outline-none focus:border-blue-500 px-3 py-2 w-full" %>
     </div>
+
+    <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+      <div class="inline">
+        <%= form.submit "ログイン", class: "flex-1 w-full sm:w-auto rounded block py-3 px-4 bg-blue-600 text-white text-sm hover:opacity-75 cursor-pointer" %>
+      </div>
+
+      <div class="mt-4 text-sm text-gray-500 sm:mt-0">
+        <%= link_to "パスワードを忘れた場合", new_password_path, class: "text-link" %>
+      </div>
+    </div>
+  <% end %>
+
+  <hr class="my-8" />
+
+  <div class="mt-4 text-sm text-gray-500 sm:mt-0">
+    初めてご利用される場合は
+    <%= link_to "アカウント登録", new_user_path, class: "text-link" %>
+    をしてください。
   </div>
-<% end %>
+</div>

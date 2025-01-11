@@ -19,6 +19,10 @@ module BungoMail
     # 表示時のタイムゾーンをJSTに設定
     config.time_zone = 'Tokyo'
 
+    # i18n
+    config.i18n.default_locale = :ja
+    config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.yml').to_s]
+
     # DB保存時のタイムゾーンをJSTに設定
     config.active_record.default_timezone = :local
 

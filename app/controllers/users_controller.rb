@@ -4,24 +4,23 @@ class UsersController < ApplicationController
   def new
     redirect_to(mypage_path) if authenticated?
 
+    @user = User.new
     @meta_title = 'アカウント登録'
     @no_index = true
   end
 
   def create
-    user = User.find_or_initialize_by(email_address: user_params[:email_address])
+    @user = User.new(user_params)
+    @meta_title = 'アカウント登録'
 
-    # すでに登録済みの場合はログイン画面へ
-    if user.persisted?
-      flash[:error] = 'このメールアドレスはすでに登録されています。登録情報を確認・更新したい場合はログインしてください。'
-      redirect_to(new_session_path) and return
+    if @user.save
+      start_new_session_for @user
+      UsersMailer.registered(@user).deliver_later
+      redirect_to(mypage_path, flash: { success: 'ユーザー登録が完了しました！' })
+    else
+      flash.now[:error] = @user.errors.full_messages.join('. ')
+      render :new, status: 422
     end
-
-    user.save
-    user.generate_magic_login_token!
-
-    BungoMailer.with(user: user).user_registered_email.deliver_now
-    redirect_to(root_path, flash: { success: 'ユーザー登録が完了しました！ご登録内容の確認メールをお送りしています。もし10分以上経ってもメールが届かない場合は運営までお問い合わせください。' })
   end
 
   def show
@@ -68,7 +67,11 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:email_address)
+      params.require(:user).permit(
+        :email_address,
+        :password,
+        :password_confirmation,
+      )
     end
 
     def webpush_payload
