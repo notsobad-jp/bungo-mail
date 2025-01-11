@@ -5,6 +5,13 @@ ja:
         email_address: メールアドレス
         password: パスワード
         password_confirmation: パスワード（確認）
+        plans:
+          free_plan: FREEプラン
+          basic_plan: BASICプラン
+      subscription:
+        delivery_methods:
+          webpush: プッシュ通知
+          email: Eメール
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
