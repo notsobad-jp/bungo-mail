@@ -1,9 +1,9 @@
-class Calendar < Icalendar::Calendar
+class Calendar
   def initialize
-    super
-    self.x_wr_timezone = "Asia/Tokyo"
-    self.x_wr_calname = "ブンゴウメール配信予定"
-    self.timezone do |t|
+    @cal = Icalendar::Calendar.new
+    @cal.x_wr_timezone = "Asia/Tokyo"
+    @cal.x_wr_calname = "ブンゴウメール"
+    @cal.timezone do |t|
       t.tzid = "Asia/Tokyo"
       t.standard do |s|
         s.tzoffsetfrom = "+0900"
@@ -16,8 +16,8 @@ class Calendar < Icalendar::Calendar
 
   def add_events(events)
     events.each do |event|
-      self.add_event(event)
+      @cal.add_event(event)
     end
-    self
+    @cal
   end
 end
