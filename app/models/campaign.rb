@@ -1,4 +1,6 @@
 class Campaign < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   belongs_to :user
   has_many :feeds, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
@@ -31,6 +33,7 @@ class Campaign < ApplicationRecord
     asanoha: "asanoha",
     sayagata: "sayagata",
   }, prefix: true
+
 
   def author_and_book_name
     "#{author_name}『#{book_title}』"
@@ -102,6 +105,16 @@ class Campaign < ApplicationRecord
       "gray"
     end
   end
+
+  def to_ics_event
+    event = Icalendar::Event.new
+    event.dtstart = Icalendar::Values::Date.new(start_date, tzid: "Asia/Tokyo")
+    event.dtend = Icalendar::Values::Date.new(end_date, tzid: "Asia/Tokyo")
+    event.summary = author_and_book_name
+    event.description = campaign_url(id, host: Rails.application.credentials.dig(:hosts, "bungo-mail"))
+    event
+  end
+
 
   private
 

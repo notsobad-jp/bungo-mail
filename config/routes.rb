@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'campaigns/dogramagra' => "pages#dogramagra"
 
   resources :books, only: [:index, :show]
+  resources :calendars, only: [:show]
   resources :campaigns, shallow: true do
     resources :feeds
     get :feed, on: :member, defaults: { format: :rss }

@@ -2,7 +2,7 @@
   %h1.font-bold.text-2xl
     購読済みの配信
 
-.mb-12
+.mb-20
   %div
     %div
       %div{class: "border-b border-gray-200"}
@@ -40,3 +40,12 @@
         データがありません。
         = link_to "新規配信の作成", books_path, class: "text-link"
         から、好きな作品を探して配信を予約してください。
+
+.mb-12
+  .mb-2.text-sm
+    💡以下のURLを使うと配信予定をカレンダーで確認することができます。
+    = link_to "https://www.notion.so/notsobad-jp/179be2cd8d96800fa811d72150251f5b", class: "text-link inline-flex items-center space-x-1" do
+      %span 使い方
+      %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4")
+        %path(stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25")
+  %input.w-full.rounded.p-2.bg-gray-100.border-gray-200(disabled="true" value="#{calendar_url(current_user)}")
