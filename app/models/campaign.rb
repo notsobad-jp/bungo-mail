@@ -35,31 +35,6 @@ class Campaign < ApplicationRecord
   }, prefix: true
 
 
-  def self.to_ics(owner_id)
-    calendar = Icalendar::Calendar.new
-    calendar.x_wr_timezone = "Asia/Tokyo"
-    calendar.x_wr_calname = "ブンゴウメール配信予定"
-    calendar.timezone do |t|
-      t.tzid = "Asia/Tokyo"
-      t.standard do |s|
-        s.tzoffsetfrom = "+0900"
-        s.tzoffsetto = "+0900"
-        s.tzname = "JST"
-        s.dtstart = "19700101T000000"
-      end
-    end
-
-    records = self.where(user_id: owner_id)
-    records.each do |record|
-      ics_event = record.to_ics_event
-      calendar.add_event(ics_event)
-    end
-
-    calendar.publish
-    calendar.to_ical
-  end
-
-
   def author_and_book_name
     "#{author_name}『#{book_title}』"
   end
