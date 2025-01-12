@@ -1,4 +1,6 @@
 class Campaign < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   belongs_to :user
   has_many :feeds, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
@@ -31,6 +33,32 @@ class Campaign < ApplicationRecord
     asanoha: "asanoha",
     sayagata: "sayagata",
   }, prefix: true
+
+
+  def self.to_ics(owner_id)
+    calendar = Icalendar::Calendar.new
+    calendar.x_wr_timezone = "Asia/Tokyo"
+    calendar.x_wr_calname = "ブンゴウメール配信予定"
+    calendar.timezone do |t|
+      t.tzid = "Asia/Tokyo"
+      t.standard do |s|
+        s.tzoffsetfrom = "+0900"
+        s.tzoffsetto = "+0900"
+        s.tzname = "JST"
+        s.dtstart = "19700101T000000"
+      end
+    end
+
+    records = self.where(user_id: owner_id)
+    records.each do |record|
+      ics_event = record.to_ics_event
+      calendar.add_event(ics_event)
+    end
+
+    calendar.publish
+    calendar.to_ical
+  end
+
 
   def author_and_book_name
     "#{author_name}『#{book_title}』"
@@ -102,6 +130,16 @@ class Campaign < ApplicationRecord
       "gray"
     end
   end
+
+  def to_ics_event
+    event = Icalendar::Event.new
+    event.dtstart = Icalendar::Values::Date.new(start_date, tzid: "Asia/Tokyo")
+    event.dtend = Icalendar::Values::Date.new(end_date, tzid: "Asia/Tokyo")
+    event.summary = author_and_book_name
+    event.description = campaign_url(id, host: Rails.application.credentials.dig(:hosts, "bungo-mail"))
+    event
+  end
+
 
   private
 
