@@ -1,6 +1,6 @@
 class CampaignsController < ApplicationController
-  allow_unauthenticated_access only: %i[ index show ]
-  after_action :verify_authorized, only: [:create, :destroy]
+  allow_unauthenticated_access only: %i[ index show feed ]
+  after_action :verify_authorized, only: %i[ create destroy ]
 
   def index
   end
@@ -52,17 +52,17 @@ class CampaignsController < ApplicationController
 
   private
 
-  def campaign_params
-    params.require(:campaign).permit(
-      :book_id,
-      :book_title,
-      :author_name,
-      :start_date,
-      :end_date,
-      :delivery_time,
-      :delivery_method,
-      :color,
-      :pattern,
-    )
-  end
+    def campaign_params
+      params.require(:campaign).permit(
+        :book_id,
+        :book_title,
+        :author_name,
+        :start_date,
+        :end_date,
+        :delivery_time,
+        :delivery_method,
+        :color,
+        :pattern,
+      )
+    end
 end
