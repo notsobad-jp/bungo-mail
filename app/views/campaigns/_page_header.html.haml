@@ -13,15 +13,15 @@
           %path(stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z")
         %span= campaign.delivery_time.strftime("%H:%M")
     %ul(class="flex items-stretch space-x-2 text-xs")
-      %a(href="https://twitter.com/share?url=#{root_url}&text=ブンゴウメール - 青空文庫の作品を小分けにして毎朝メールで配信する、忙しいあなたのための読書サポートサービス&hashtags=ブンゴウメール" target="_blank" class="rounded bg-black text-white flex items-center space-x-1 px-1.5 py-1.5 w-auto hover:opacity-75")
-        %svg(class="w-3 h-3" viewBox="0 0 1200 1227" fill="none" xmlns="http://www.w3.org/2000/svg")
+      = link_to "https://twitter.com/share?url=#{campaign_url(campaign)}&text=ブンゴウメール配信予定%0a📘#{campaign.author_and_book_name}%0a📅#{campaign.delivery_period}%0a&hashtags=ブンゴウメール", target: :_blank, class: "w-8 sm:w-auto rounded bg-black text-white flex items-center space-x-1 px-1.5 py-1.5 hover:opacity-75" do
+        %svg(class="w-3 h-3 mx-auto" viewBox="0 0 1200 1227" fill="none" xmlns="http://www.w3.org/2000/svg")
           %path(d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" fill="white")
         %span.hidden.sm:block ツイート
-      %a(href="https://www.facebook.com/share.php?u=#{root_url}" target="_blank" class="rounded bg-blue-800 text-white flex items-center space-x-1 px-1.5 py-1 w-auto hover:opacity-75")
-        %svg(class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg")
+      = link_to "https://www.facebook.com/share.php?u=#{campaign_url(campaign)}", target: :_blank, class: "w-8 sm:w-auto rounded bg-blue-800 text-white flex items-center space-x-1 px-1.5 py-1 hover:opacity-75" do
+        %svg(class="w-5 h-5 fill-current mx-auto" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg")
           %path(d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2m13 2h-2.5A3.5 3.5 0 0 0 12 8.5V11h-2v3h2v7h3v-7h3v-3h-3V9a1 1 0 0 1 1-1h2V5z")
         %span.hidden.sm:block シェア
-      = link_to feed_campaign_url(campaign), target: :_blank, class: "rounded bg-orange-600 text-white flex items-center space-x-1 px-1.5 py-1 w-auto hover:opacity-75" do
-        %svg(class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+      = link_to feed_campaign_url(campaign), target: :_blank, class: "w-8 sm:w-auto rounded bg-orange-600 text-white flex items-center space-x-1 px-1.5 py-1 hover:opacity-75" do
+        %svg(class="w-4 h-4 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
           %path(stroke-linecap="round" stroke-linejoin="round" d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z")
         %span.hidden.sm:block RSS
