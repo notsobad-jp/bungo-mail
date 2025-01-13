@@ -25,9 +25,6 @@ class BooksController < ApplicationController
       end_date: params[:end_date],
       delivery_time: params[:delivery_time] || '07:00',
     )
-    p "-----"
-    p disabled_methods
-    p current_user
     @disabled_methods = disabled_methods
 
     @meta_title = @book.title

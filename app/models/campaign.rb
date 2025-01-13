@@ -8,14 +8,11 @@ class Campaign < ApplicationRecord
 
   scope :upcoming, -> { where("? <= end_date", Date.current) }
   scope :finished, -> { where("? > end_date", Date.current) }
-  scope :subscribed_by, -> (user) { joins(:subscriptions).where(subscriptions: { user_id: user.id }) }
   scope :overlapping_with, -> (start_date, end_date) { where("end_date >= ? and ? >= start_date", start_date, end_date) }
 
-  validates :start_date,
-    presence: true,
+  validates :start_date, presence: true,
     comparison: { less_than_or_equal_to: -> _ { Date.today.since(2.months) } }
-  validates :end_date,
-    presence: true,
+  validates :end_date, presence: true,
     comparison: {
       greater_than_or_equal_to: :start_date,
       less_than_or_equal_to: -> campaign { campaign.start_date.since(1.year) }

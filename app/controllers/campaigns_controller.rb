@@ -32,7 +32,7 @@ class CampaignsController < ApplicationController
 
     # 配信期間が重複している配信が存在してるかチェック
     if authenticated? && current_user.id != @campaign.user_id
-      @overlapping_campaigns = Campaign.subscribed_by(current_user).where.not(id: @campaign.id).overlapping_with(@campaign.end_date, @campaign.start_date)
+      @overlapping_campaigns = current_user.subscribing_campaigns.where.not(id: @campaign.id).overlapping_with(@campaign.end_date, @campaign.start_date)
     end
   end
 
