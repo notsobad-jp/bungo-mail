@@ -14,7 +14,8 @@ class Campaign < ApplicationRecord
   validates :start_date, presence: true
   validates :end_date, presence: true
   validate :end_date_should_come_after_start_date
-  validate :end_date_should_not_be_too_far # 12ヶ月以上先の予約は禁止
+  validate :start_date_should_not_be_too_far # 配信開始が2ヶ月以上先の予約は禁止
+  validate :delivery_period_should_not_be_too_long # 配信期間が12ヶ月以上の予約は禁止
   validate :delivery_period_should_not_overlap, if: -> { user.free_plan? } # 無料ユーザーで期間が重複するレコードが存在すればinvalid
 
   attr_accessor :delivery_method
@@ -132,7 +133,7 @@ class Campaign < ApplicationRecord
       errors.add(:base, "配信終了日は開始日より後に設定してください") if end_date < start_date
     end
 
-    def end_date_should_not_be_too_far
+    def delivery_period_should_not_be_too_long
       errors.add(:base, "配信終了日は開始日から12ヶ月以内に設定してください") if end_date > start_date.since(12.months)
     end
 end
