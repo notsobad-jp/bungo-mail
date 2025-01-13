@@ -25,9 +25,19 @@ class BooksController < ApplicationController
       end_date: params[:end_date],
       delivery_time: params[:delivery_time] || '07:00',
     )
+    p "-----"
+    p disabled_methods
+    p current_user
+    @disabled_methods = disabled_methods
 
     @meta_title = @book.title
     @meta_noindex = true
     @breadcrumbs = [ {text: '作品検索', link: books_path}, {text: @meta_title} ]
   end
+
+  private
+
+    def disabled_methods
+      Subscription::DELIVERY_METHOD_REQUIREMENTS.reject { |_, requirement| requirement.call(current_user) }.keys
+    end
 end
