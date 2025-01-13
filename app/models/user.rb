@@ -4,6 +4,12 @@ class User < ApplicationRecord
   has_many :campaigns, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :subscribing_campaigns, through: :subscriptions, source: :campaign
+  has_many :created_or_subscribing_campaigns, ->(user) {
+              where('campaigns.user_id = :user_id OR campaigns.id IN (:subscribed_ids)',
+              user_id: user.id,
+              subscribed_ids: user.subscriptions.select(:campaign_id))
+            },
+            class_name: 'Campaign'
 
   has_many :upcoming_campaigns, -> { Campaign.upcoming }, class_name: "Campaign"
   validates_length_of :upcoming_campaigns, maximum: 1

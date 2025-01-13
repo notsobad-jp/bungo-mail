@@ -3,9 +3,9 @@ class SubscriptionsController < ApplicationController
     @meta_title = "配信管理"
 
     if params[:finished].present?
-      @campaigns = current_user.subscribing_campaigns.finished.order(start_date: :asc).page(params[:page])
+      @campaigns = current_user.created_or_subscribing_campaigns.finished.order(start_date: :asc).page(params[:page])
     else
-      @campaigns = current_user.subscribing_campaigns.upcoming.order(start_date: :asc).page(params[:page])
+      @campaigns = current_user.created_or_subscribing_campaigns.upcoming.order(start_date: :asc).page(params[:page])
     end
   end
 
