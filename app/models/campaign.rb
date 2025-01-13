@@ -1,7 +1,7 @@
 class Campaign < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  belongs_to :user
+  belongs_to :user, validate: true # キャンペーン数制約をチェックする
   has_many :feeds, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :delayed_jobs, foreign_key: :queue, dependent: :destroy
