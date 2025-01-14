@@ -19,6 +19,7 @@ module Authentication
     end
 
     def current_user
+      Current.session = resume_session unless Current.user
       Current.user
     end
 
