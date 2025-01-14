@@ -1,26 +1,37 @@
 require 'test_helper'
 
-class SubscriptionTest < ActiveSupport::TestCase
-  def setup
-    @user_basic_with_fcm = User.new(plan: :basic, fcm_device_token: 'some_token')
-    @user_basic_without_fcm = User.new(plan: :basic, fcm_device_token: nil)
-    @user_free_with_fcm = User.new(plan: :free, fcm_device_token: 'some_token')
-    @user_free_without_fcm = User.new(plan: :free, fcm_device_token: nil)
-  end
+describe Subscription do
+  describe "enabled_delivery_methods" do
+    context "user with free plan" do
+      context "with FCM token" do
+        it "should return [:webpush]" do
+          user_free_with_fcm = User.new(plan: :free, fcm_device_token: 'some_token')
+          assert_equal [:webpush], Subscription.enabled_delivery_methods(user_free_with_fcm)
+        end
+      end
 
-  test "enabled_delivery_methods for user with basic plan and FCM token" do
-    assert_equal [:email, :webpush], Subscription.enabled_delivery_methods(@user_basic_with_fcm)
-  end
+      context "without FCM token" do
+        it "should return []" do
+          user_free_without_fcm = User.new(plan: :free)
+          assert_equal [], Subscription.enabled_delivery_methods(user_free_without_fcm)
+        end
+      end
+    end
 
-  test "enabled_delivery_methods for user with basic plan and no FCM token" do
-    assert_equal [:email], Subscription.enabled_delivery_methods(@user_basic_without_fcm)
-  end
+    context "user with basic plan" do
+      context "with FCM token" do
+        it "should return [:email, :webpush]" do
+          user_basic_with_fcm = User.new(plan: :basic, fcm_device_token: 'some_token')
+          assert_equal [:email, :webpush], Subscription.enabled_delivery_methods(user_basic_with_fcm)
+        end
+      end
 
-  test "enabled_delivery_methods for user with free plan and FCM token" do
-    assert_equal [:webpush], Subscription.enabled_delivery_methods(@user_free_with_fcm)
-  end
-
-  test "enabled_delivery_methods for user with free plan and no FCM token" do
-    assert_equal [], Subscription.enabled_delivery_methods(@user_free_without_fcm)
+      context "without FCM token" do
+        it "should return [:email]" do
+          user_basic_without_fcm = User.new(plan: :basic)
+          assert_equal [:email], Subscription.enabled_delivery_methods(user_basic_without_fcm)
+        end
+      end
+    end
   end
 end
