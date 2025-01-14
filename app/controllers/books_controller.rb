@@ -35,6 +35,6 @@ class BooksController < ApplicationController
   private
 
     def disabled_methods
-      Subscription::DELIVERY_METHOD_REQUIREMENTS.reject { |_, requirement| requirement.call(current_user) }.keys
+      Subscription.delivery_methods.keys - Subscription.enabled_delivery_methods(current_user)
     end
 end

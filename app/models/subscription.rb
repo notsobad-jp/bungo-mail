@@ -9,6 +9,10 @@ class Subscription < ApplicationRecord
     webpush: -> (user) { user&.fcm_device_token&.present? }
   }.freeze
 
+  def self.enabled_delivery_methods(user)
+    DELIVERY_METHOD_REQUIREMENTS.select { |_, requirement| requirement.call(user) }.keys
+  end
+
   after_create :subscribe_to_webpush_topic, if: -> (sub) { sub.deliver_by_webpush? }
   after_destroy :unsubscribe_from_webpush_topic, if: -> (sub) { sub.deliver_by_webpush? }
 
