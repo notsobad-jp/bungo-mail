@@ -54,12 +54,12 @@
       %ul.mt-2.space-y-1
         %li.text-xs
           ※「通知なし」を選択した場合、配信登録後に発行されるRSSフィードからご自分で通知を受け取ってください
-        - if !current_user || current_user.fcm_device_token.blank?
+        - if @disabled_methods.include?(:webpush)
           %li.text-xs
             ※「プッシュ通知」での受信には
             = link_to "プッシュ通知の設定", mypage_path, class: "text-link"
             が必要です
-        - if !current_user || current_user.free_plan?
+        - if @disabled_methods.include?(:email)
           %li.text-xs
             ※「Eメール」での受信にはBASICプランへの登録が必要です
   .mb-4

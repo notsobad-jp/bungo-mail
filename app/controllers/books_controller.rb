@@ -25,7 +25,8 @@ class BooksController < ApplicationController
       end_date: params[:end_date],
       delivery_time: params[:delivery_time] || '07:00',
     )
-    @disabled_methods = disabled_methods
+
+    @disabled_methods = disabled_methods(@campaign.subscriptions.new(user: current_user))
 
     @meta_title = @book.title
     @meta_noindex = true
@@ -34,7 +35,7 @@ class BooksController < ApplicationController
 
   private
 
-    def disabled_methods
-      Subscription.delivery_methods.keys - Subscription.enabled_delivery_methods(current_user)
+    def disabled_methods(sub)
+      Subscription.delivery_methods.keys.map(&:to_sym) - sub.enabled_delivery_methods
     end
 end
