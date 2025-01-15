@@ -1,0 +1,9 @@
+one:
+  user: :free
+  book_id: 1567
+  book_title: "走れメロス"
+  author_name: "太宰治"
+  start_date: <%= Time.zone.today %>
+  end_date: <%= Time.zone.today.since(1.week) %>
+  color: "red"
+  pattern: "seigaha"

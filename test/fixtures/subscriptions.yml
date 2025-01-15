@@ -1,0 +1,9 @@
+webpush:
+  campaign: :one
+  user: :free
+  delivery_method: "webpush"
+
+email:
+  campaign: :one
+  user: :basic
+  delivery_method: "email"
