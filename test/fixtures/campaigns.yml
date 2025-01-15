@@ -3,7 +3,7 @@ one:
   book_id: 1567
   book_title: "走れメロス"
   author_name: "太宰治"
-  start_date: <%= Time.zone.today %>
-  end_date: <%= Time.zone.today.since(1.week) %>
+  start_date: "2025-01-01"
+  end_date: "2025-01-05"
   color: "red"
   pattern: "seigaha"
