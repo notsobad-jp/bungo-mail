@@ -36,6 +36,6 @@ class BooksController < ApplicationController
   private
 
     def disabled_methods(sub)
-      Subscription.delivery_methods.keys.map(&:to_sym) - sub.enabled_delivery_methods
+      Subscription.delivery_methods.keys.map - sub.enabled_delivery_methods
     end
 end

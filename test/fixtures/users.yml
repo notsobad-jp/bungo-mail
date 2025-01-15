@@ -1,9 +1,23 @@
 <% password_digest = BCrypt::Password.create("password") %>
 
-one:
-  email_address: one@example.com
+free:
+  email_address: free@example.com
   password_digest: <%= password_digest %>
+  plan: :free
 
-two:
-  email_address: two@example.com
+free_with_fcm:
+  email_address: free_with_fcm@example.com
   password_digest: <%= password_digest %>
+  plan: :free
+  fcm_device_token: <%= SecureRandom.hex %>
+
+basic:
+  email_address: basic@example.com
+  password_digest: <%= password_digest %>
+  plan: :basic
+
+basic_with_fcm:
+  email_address: basic_with_fcm@example.com
+  password_digest: <%= password_digest %>
+  plan: :basic
+  fcm_device_token: <%= SecureRandom.hex %>
