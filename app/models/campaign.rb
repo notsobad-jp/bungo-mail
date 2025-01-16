@@ -48,7 +48,7 @@ class Campaign < ApplicationRecord
   def create_and_subscribe_and_schedule_feeds
     ActiveRecord::Base.transaction do
       save!
-      user.subscriptions.create(campaign: self, delivery_method:) if delivery_method.present?
+      user.subscriptions.create!(campaign: self, delivery_method:) if delivery_method.present?
     end
     CreateAndScheduleFeedsJob.perform_later(campaign_id: id)
   end
