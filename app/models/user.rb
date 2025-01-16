@@ -29,10 +29,6 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, on: :create
 
 
-  def disabled_delivery_methods
-    Subscription.delivery_methods.keys.map(&:to_sym) - enabled_delivery_methods
-  end
-
   def enabled_delivery_methods
     Subscription::DELIVERY_METHOD_REQUIREMENTS.select { |_, requirement| requirement.call(self) }.keys
   end

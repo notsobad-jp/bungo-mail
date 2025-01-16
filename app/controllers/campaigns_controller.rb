@@ -17,6 +17,7 @@ class CampaignsController < ApplicationController
     rescue
       @book = Book.find(@campaign.book_id)
       @meta_title = @book.title
+      @disabled_delivery_methods = disabled_delivery_methods(current_user)
 
       flash.now[:error] = @campaign.errors.full_messages.join('. ')
       render template: 'books/show', status: 422
@@ -64,5 +65,9 @@ class CampaignsController < ApplicationController
         :color,
         :pattern,
       )
+    end
+
+    def disabled_delivery_methods(user)
+      Subscription.delivery_methods.keys.map(&:to_sym) - (user&.enabled_delivery_methods || [])
     end
 end
