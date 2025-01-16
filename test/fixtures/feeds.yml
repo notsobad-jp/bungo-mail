@@ -1,0 +1,9 @@
+one:
+  campaign: :one
+  position: 1
+  content: "hogehoge"
+
+two:
+  campaign: :one
+  position: 2
+  content: "hogehoge"

@@ -26,16 +26,8 @@ class BooksController < ApplicationController
       delivery_time: params[:delivery_time] || '07:00',
     )
 
-    @disabled_methods = disabled_methods(@campaign.subscriptions.new(user: current_user))
-
     @meta_title = @book.title
     @meta_noindex = true
     @breadcrumbs = [ {text: '作品検索', link: books_path}, {text: @meta_title} ]
   end
-
-  private
-
-    def disabled_methods(sub)
-      Subscription.delivery_methods.keys.map(&:to_sym) - sub.enabled_delivery_methods
-    end
 end

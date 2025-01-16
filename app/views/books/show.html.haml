@@ -49,17 +49,17 @@
       %div
         = f.select :delivery_method,
           Subscription.enum_options_for_select(:delivery_method),
-          { include_blank: "通知なし", disabled: @disabled_methods },
+          { include_blank: "通知なし", disabled: current_user.disabled_delivery_methods },
           class: 'border border-gray-200 rounded w-full p-2'
       %ul.mt-2.space-y-1
         %li.text-xs
           ※「通知なし」を選択した場合、配信登録後に発行されるRSSフィードからご自分で通知を受け取ってください
-        - if @disabled_methods.include?(:webpush)
+        - if current_user.disabled_delivery_methods.include?(:webpush)
           %li.text-xs
             ※「プッシュ通知」での受信には
             = link_to "プッシュ通知の設定", mypage_path, class: "text-link"
             が必要です
-        - if @disabled_methods.include?(:email)
+        - if current_user.disabled_delivery_methods.include?(:email)
           %li.text-xs
             ※「Eメール」での受信にはBASICプランへの登録が必要です
   .mb-4
