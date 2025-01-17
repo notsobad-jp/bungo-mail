@@ -73,9 +73,9 @@ class Campaign < ApplicationRecord
 
   def schedule_feeds
     jobs = feeds.map do |feed|
-      next if feed.send_at < Time.current
+      next if feed.deliver_at < Time.current
       FeedDeliveryJob.new(feed_id: feed.id).set(
-        wait_until: feed.send_at,
+        wait_until: feed.deliver_at,
         queue: id,
       )
     end.compact

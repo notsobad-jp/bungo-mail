@@ -11,16 +11,16 @@ class Feed < ApplicationRecord
   }
 
   def deliver
-    FeedMailer.with(feed: self).feed.deliver_now
+    FeedMailer.with(feed: self).notify.deliver_now
     Webpush.notify(webpush_payload)
+  end
+
+  def deliver_at
+    Time.zone.parse("#{delivery_date.to_s} #{campaign.delivery_time}")
   end
 
   def delivery_date
     campaign.start_date + ( position - 1 ).days
-  end
-
-  def send_at
-    Time.zone.parse("#{delivery_date.to_s} #{campaign.delivery_time}")
   end
 
   private

@@ -34,11 +34,11 @@ describe Feed do
     end
   end
 
-  describe "send_at" do
+  describe "deliver_at" do
     it "should return delivery_date + delivery_time" do
       feed = feeds(:two)
       feed.campaign.delivery_time = "08:00"
-      assert_equal Time.zone.parse("2025-01-02 08:00"), feed.send_at
+      assert_equal Time.zone.parse("2025-01-02 08:00"), feed.deliver_at
     end
   end
 end
