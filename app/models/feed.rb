@@ -15,12 +15,12 @@ class Feed < ApplicationRecord
     Webpush.notify(webpush_payload)
   end
 
-  def delivery_date
-    campaign.start_date + ( position - 1 ).days
+  def deliver_at
+    Time.zone.parse("#{delivery_date.to_s} #{campaign.delivery_time}")
   end
 
-  def send_at
-    Time.zone.parse("#{delivery_date.to_s} #{campaign.delivery_time}")
+  def delivery_date
+    campaign.start_date + ( position - 1 ).days
   end
 
   private

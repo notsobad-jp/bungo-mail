@@ -22,7 +22,7 @@ xml.rss(
         xml.description do
           xml.cdata! feed.content
         end
-        xml.pubDate feed.send_at.rfc822
+        xml.pubDate feed.deliver_at.rfc822
         xml.guid feed.id
         xml.link feed_url(feed)
       end
