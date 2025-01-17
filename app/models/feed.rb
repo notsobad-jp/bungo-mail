@@ -23,6 +23,16 @@ class Feed < ApplicationRecord
     campaign.start_date + ( position - 1 ).days
   end
 
+  def schedule(skip_before = Time.current)
+    next if deliver_at < skip_before
+
+    FeedDeliveryJob.new(feed_id: id).set(
+      wait_until: deliver_at,
+      queue: campaign_id,
+    )
+  end
+
+
   private
 
     def webpush_payload

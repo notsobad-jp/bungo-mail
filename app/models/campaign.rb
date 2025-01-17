@@ -72,13 +72,7 @@ class Campaign < ApplicationRecord
   end
 
   def schedule_feeds
-    jobs = feeds.map do |feed|
-      next if feed.deliver_at < Time.current
-      FeedDeliveryJob.new(feed_id: feed.id).set(
-        wait_until: feed.deliver_at,
-        queue: id,
-      )
-    end.compact
+    jobs = feeds.map(&:schedule).compact
     ActiveJob.perform_all_later(jobs) # DelayedJobが対応してないので結局loopして個別にenqueueされる
   end
 
