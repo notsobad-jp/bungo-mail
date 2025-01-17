@@ -1,5 +1,5 @@
 class FeedMailer < ApplicationMailer
-  def feed
+  def notify
     @feed = params[:feed]
     send_to = params[:send_to] || @feed.campaign.subscriber_emails
     return if send_to.blank?

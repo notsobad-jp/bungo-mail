@@ -11,7 +11,7 @@ class Feed < ApplicationRecord
   }
 
   def deliver
-    FeedMailer.with(feed: self).feed.deliver_now
+    FeedMailer.with(feed: self).notify.deliver_now
     Webpush.notify(webpush_payload)
   end
 
