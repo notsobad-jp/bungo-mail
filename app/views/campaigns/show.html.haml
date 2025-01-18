@@ -13,11 +13,10 @@
           が必要です。
   - else # ログイン済み
     - if current_user == @campaign.user # 自分の配信
-      - if @campaign.status != "配信終了"
-        = link_to campaign_path, data: { turbo_method: :delete, turbo_confirm: "この配信を削除します。本当によろしいですか？" }, local: true, class: "btn btn-danger-outline" do
-          %span 配信を削除する
+      = link_to campaign_path, data: { turbo_method: :delete, turbo_confirm: "この配信を削除します。本当によろしいですか？" }, local: true, class: "btn btn-danger-outline" do
+        %span 配信を削除する
     - else # 他ユーザーの配信
-      - if @subscription.present? # 購読済み
+      - if @subscription.persisted? # 購読済み
         = link_to subscription_path(@subscription), data: { turbo_method: :delete, turbo_confirm: "この配信の購読を解除します。本当によろしいですか？" }, local: true, class: "btn btn-danger" do
           %span 購読を解除する
       - elsif @overlapping_campaigns.present? # 重複期間で購読済み
