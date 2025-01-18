@@ -7,3 +7,13 @@ one:
   end_date: "2025-01-05"
   color: "red"
   pattern: "seigaha"
+
+two:
+  user: :basic
+  book_id: 624
+  book_title: "山月記"
+  author_name: "中島敦"
+  start_date: "2025-01-01"
+  end_date: "2025-01-05"
+  color: "teal"
+  pattern: "asanoha"

@@ -1,9 +1,14 @@
-one:
+one_one:
   campaign: :one
   position: 1
   content: "hogehoge"
 
-two:
+one_two:
   campaign: :one
   position: 2
+  content: "hogehoge"
+
+two_one:
+  campaign: :two
+  position: 1
   content: "hogehoge"

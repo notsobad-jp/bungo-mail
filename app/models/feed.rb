@@ -3,8 +3,8 @@ class Feed < ApplicationRecord
 
   belongs_to :campaign
 
-  scope :delivered_before, ->(datetime) {
-    Feed.joins(:campaign).where(
+  scope :delivered_before, ->(datetime = Time.current) {
+    joins(:campaign).where(
       "campaigns.start_date + (feeds.position - 1) * interval '1 day' + campaigns.delivery_time < ?",
       datetime.strftime("%Y-%m-%d %H:%S")
     )
