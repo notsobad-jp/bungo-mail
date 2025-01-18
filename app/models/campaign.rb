@@ -6,6 +6,8 @@ class Campaign < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :delayed_jobs, foreign_key: :queue, dependent: :destroy
 
+  accepts_nested_attributes_for :subscriptions, reject_if: :delivery_method_blank
+
   scope :upcoming, -> { where("? <= end_date", Date.current) }
   scope :finished, -> { where("? > end_date", Date.current) }
   scope :overlapping_with, -> (start_date, end_date) { where("end_date >= ? and ? >= start_date", start_date, end_date) }
@@ -113,6 +115,10 @@ class Campaign < ApplicationRecord
 
 
   private
+
+    def delivery_method_blank(attributes)
+      attributes[:delivery_method].blank?
+    end
 
     # 期間が重複するレコードが存在すればinvalid(Freeプランのみ)
     def delivery_period_should_not_overlap

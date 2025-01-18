@@ -43,22 +43,23 @@
       = f.time_field :delivery_time, class: 'border border-gray-200 rounded w-full p-2', placeholder: '07:00', min: '05:00', max: '23:00', step: 600
       %small.text-xs ※配信時間は5:00~23:00の間で指定可能です（実際の配信には数分程度の誤差があります）
     .mb-8
-      %h5.mb-2.font-bold 受信方法
-      %div
-        = f.select :delivery_method,
-          Subscription.enum_options_for_select(:delivery_method),
-          { include_blank: "通知なし", disabled: @disabled_delivery_methods },
-          class: 'border border-gray-200 rounded w-full p-2'
-      %ul.mt-2.space-y-1
-        %li.text-xs
-          ※「通知なし」を選択した場合、配信登録後に発行されるRSSフィードからご自分で通知を受け取ってください
-        - if @disabled_delivery_methods.include?(:webpush)
+      = f.fields_for :subscriptions, @campaign.subscriptions.new do |sub_f|
+        %h5.mb-2.font-bold 受信方法
+        %div
+          = sub_f.select :delivery_method,
+            Subscription.enum_options_for_select(:delivery_method),
+            { include_blank: "通知なし", disabled: sub_f.object.disabled_delivery_methods },
+            class: 'border border-gray-200 rounded w-full p-2'
+        %ul.mt-2.space-y-1
           %li.text-xs
-            ※「プッシュ通知」での受信には
-            = link_to "プッシュ通知の設定", mypage_path, class: "text-link"
-            が必要です
-        - if @disabled_delivery_methods.include?(:email)
-          %li.text-xs
-            ※「Eメール」での受信にはBASICプランへの登録が必要です
+            ※「通知なし」を選択した場合、配信登録後に発行されるRSSフィードからご自分で通知を受け取ってください
+          - if sub_f.object.disabled_delivery_methods.include?(:webpush)
+            %li.text-xs
+              ※「プッシュ通知」での受信には
+              = link_to "プッシュ通知の設定", mypage_path, class: "text-link"
+              が必要です
+          - if sub_f.object.disabled_delivery_methods.include?(:email)
+            %li.text-xs
+              ※「Eメール」での受信にはBASICプランへの登録が必要です
   .mb-4
     = f.submit '配信を予約する', class: "btn btn-primary", disabled: !authenticated?

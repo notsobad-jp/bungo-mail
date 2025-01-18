@@ -17,7 +17,6 @@ class CampaignsController < ApplicationController
     rescue
       @book = Book.find(@campaign.book_id)
       @meta_title = @book.title
-      @disabled_delivery_methods = disabled_delivery_methods(current_user)
 
       flash.now[:error] = @campaign.errors.full_messages.join('. ')
       render template: 'books/show', status: 422
@@ -27,8 +26,7 @@ class CampaignsController < ApplicationController
   def show
     @campaign = Campaign.find(params[:id])
     @feeds = Feed.delivered_before(Time.current).where(campaign_id: @campaign.id).order(position: :desc).limit(10)
-    @subscription = current_user.subscriptions.find_by(campaign_id: @campaign.id) if authenticated?
-    @disabled_delivery_methods = disabled_delivery_methods(current_user)
+    @subscription = current_user.subscriptions.find_or_initialize_by(campaign_id: @campaign.id) if authenticated?
     @meta_title = @campaign.author_and_book_name
     @breadcrumbs = [ {text: '配信管理', link: subscriptions_path}, {text: @meta_title} ] if @subscription
 
@@ -64,10 +62,9 @@ class CampaignsController < ApplicationController
         :delivery_time,
         :delivery_method,
         :color,
+        subscriptions_attributes: [
+          :delivery_method,
+        ],
       )
-    end
-
-    def disabled_delivery_methods(user)
-      Subscription.delivery_methods.keys.map(&:to_sym) - (user&.enabled_delivery_methods || [])
     end
 end
