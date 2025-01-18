@@ -9,15 +9,14 @@ class CampaignsController < ApplicationController
     authorize Campaign
     @campaign = current_user.campaigns.new(campaign_params)
 
-    begin
-      @campaign.create_and_subscribe_and_schedule_feeds
+    if @campaign.save
+      CreateAndScheduleFeedsJob.perform_later(campaign_id: @campaign.id)
       CampaignMailer.with(user: current_user, campaign: @campaign).scheduled.deliver_later
       flash[:success] = '配信予約が完了しました！予約内容をメールでお送りしていますのでご確認ください。'
       redirect_to campaign_path(@campaign)
-    rescue
+    else
       @book = Book.find(@campaign.book_id)
       @meta_title = @book.title
-      @disabled_delivery_methods = disabled_delivery_methods(current_user)
 
       flash.now[:error] = @campaign.errors.full_messages.join('. ')
       render template: 'books/show', status: 422
@@ -26,15 +25,10 @@ class CampaignsController < ApplicationController
 
   def show
     @campaign = Campaign.find(params[:id])
-    @feeds = Feed.delivered_before(Time.current).where(campaign_id: @campaign.id).order(position: :desc).page(params[:page]) # FIXME
-    @subscription = current_user.subscriptions.find_by(campaign_id: @campaign.id) if authenticated?
+    @feeds = @campaign.feeds.delivered_before(Time.current).order(position: :desc).limit(10)
+    @subscription = @campaign.subscriptions.find_or_initialize_by(user: current_user)
     @meta_title = @campaign.author_and_book_name
     @breadcrumbs = [ {text: '配信管理', link: subscriptions_path}, {text: @meta_title} ] if @subscription
-
-    # 配信期間が重複している配信が存在してるかチェック
-    if authenticated? && current_user.id != @campaign.user_id
-      @overlapping_campaigns = current_user.subscribing_campaigns.where.not(id: @campaign.id).overlapping_with(@campaign.end_date, @campaign.start_date)
-    end
   end
 
   def destroy
@@ -63,10 +57,10 @@ class CampaignsController < ApplicationController
         :delivery_time,
         :delivery_method,
         :color,
+        subscriptions_attributes: [
+          :user_id,
+          :delivery_method,
+        ],
       )
-    end
-
-    def disabled_delivery_methods(user)
-      Subscription.delivery_methods.keys.map(&:to_sym) - (user&.enabled_delivery_methods || [])
     end
 end

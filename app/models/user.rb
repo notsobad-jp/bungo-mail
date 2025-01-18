@@ -11,9 +11,6 @@ class User < ApplicationRecord
             },
             class_name: 'Campaign'
 
-  has_many :upcoming_campaigns, -> { Campaign.upcoming }, class_name: "Campaign"
-  validates_length_of :upcoming_campaigns, maximum: 1
-
   enum :plan, { free: "free", basic: "basic" }, suffix: true
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }

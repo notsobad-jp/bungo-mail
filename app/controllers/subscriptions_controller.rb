@@ -5,7 +5,7 @@ class SubscriptionsController < ApplicationController
     if params[:finished].present?
       @campaigns = current_user.created_or_subscribing_campaigns.finished.order(start_date: :asc).page(params[:page])
     else
-      @campaigns = current_user.created_or_subscribing_campaigns.upcoming.order(start_date: :asc).page(params[:page])
+      @campaigns = current_user.created_or_subscribing_campaigns.unfinished.order(start_date: :asc).page(params[:page])
     end
   end
 

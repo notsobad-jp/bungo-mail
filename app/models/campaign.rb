@@ -1,16 +1,18 @@
 class Campaign < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  belongs_to :user, validate: true # キャンペーン数制約をチェックする
+  belongs_to :user
   has_many :feeds, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :delayed_jobs, foreign_key: :queue, dependent: :destroy
 
-  scope :upcoming, -> { where("? <= end_date", Date.current) }
+  accepts_nested_attributes_for :subscriptions, reject_if: :delivery_method_blank
+
   scope :finished, -> { where("? > end_date", Date.current) }
-  scope :overlapping_with, -> (start_date, end_date) { where("end_date >= ? and ? >= start_date", start_date, end_date) }
+  scope :unfinished, -> { where("? <= end_date", Date.current) }
 
   PATTERNS = ["seigaiha", "asanoha", "sayagata"]
+  MAX_UNFINISHED_CAMPAIGNS = { free: 1, basic: 5 } # 予約可能キャンペーン数
 
   validates :start_date, presence: true,
     comparison: { less_than_or_equal_to: -> _ { Date.today.since(2.months) } }
@@ -19,9 +21,7 @@ class Campaign < ApplicationRecord
       greater_than_or_equal_to: :start_date,
       less_than_or_equal_to: -> campaign { campaign.start_date.since(1.year) }
     }
-  validate :delivery_period_should_not_overlap, if: -> { user.free_plan? } # 無料ユーザーで期間が重複するレコードが存在すればinvalid
-
-  attr_accessor :delivery_method
+  validate :validate_unfinished_campaigns_count
 
   enum :color, {
     red: "red", # bg-red-700
@@ -39,14 +39,6 @@ class Campaign < ApplicationRecord
 
   def count
     (end_date - start_date).to_i + 1
-  end
-
-  def create_and_subscribe_and_schedule_feeds
-    ActiveRecord::Base.transaction do
-      save!
-      user.subscriptions.create!(campaign: self, delivery_method:) if delivery_method.present?
-    end
-    CreateAndScheduleFeedsJob.perform_later(campaign_id: id)
   end
 
   def create_feeds
@@ -114,9 +106,16 @@ class Campaign < ApplicationRecord
 
   private
 
-    # 期間が重複するレコードが存在すればinvalid(Freeプランのみ)
-    def delivery_period_should_not_overlap
-      overlapping = Campaign.where.not(id: id).where(user_id: user_id).overlapping_with(start_date, end_date)
-      errors.add(:base, "他の配信と期間が重複しています") if overlapping.present?
+    def delivery_method_blank(attributes)
+      attributes[:delivery_method].blank?
+    end
+
+    def validate_unfinished_campaigns_count
+      current_count = user.campaigns.unfinished.count
+      limit = MAX_UNFINISHED_CAMPAIGNS[user.plan.to_sym]
+
+      if current_count >= limit
+        errors.add(:base, "配信数の上限を超えています。現在のプランの予約上限は「#{limit}本」です。予約済みの配信を削除するか、配信が終わるまでお待ちください")
+      end
     end
 end
