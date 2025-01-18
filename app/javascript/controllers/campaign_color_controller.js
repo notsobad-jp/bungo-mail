@@ -5,8 +5,13 @@ export default class extends Controller {
   static targets = [ "banner" ]
 
   colorValueChanged(value, previousValue) {
-    console.log("-----")
-    this.bannerTarget.classList.remove(`bg-${previousValue}-700`)
-    this.bannerTarget.classList.add(`bg-${value}-700`)
+    if(previousValue) {
+      this.bannerTarget.classList.remove(`bg-${previousValue}-700`)
+    }
+    this.bannerTarget.classList.add(`bg-${this.colorValue}-700`)
+  }
+
+  updateColor({ params: {color} }) {
+    this.colorValue = color
   }
 }

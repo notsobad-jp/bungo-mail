@@ -14,7 +14,7 @@
     .mt-2.flex.justify-end.space-x-2
       - Campaign.colors.keys.each do |color|
         = f.label :color, value: color, class: "w-6 h-6 rounded bg-#{color}-700 cursor-pointer has-[:checked]:opacity-70" do
-          = f.radio_button :color, color, class: "peer hidden", checked: campaign.color == color
+          = f.radio_button :color, color, class: "peer hidden", checked: campaign.color == color, "data-action": "change->campaign-color#updateColor", "data-campaign-color-color-param": color
           .hidden.peer-checked:block.text-white.p-1
             %svg(class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
               %path(stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5")
