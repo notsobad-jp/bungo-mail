@@ -4,12 +4,6 @@ class User < ApplicationRecord
   has_many :campaigns, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :subscribing_campaigns, through: :subscriptions, source: :campaign
-  has_many :created_or_subscribing_campaigns, ->(user) {
-              where('campaigns.user_id = :user_id OR campaigns.id IN (:subscribed_ids)',
-              user_id: user.id,
-              subscribed_ids: user.subscriptions.select(:campaign_id))
-            },
-            class_name: 'Campaign'
 
   enum :plan, { free: "free", basic: "basic" }, suffix: true
 
