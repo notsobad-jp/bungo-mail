@@ -15,15 +15,23 @@
 %div(class="mb-12 text-sm text-gray-500")
   %p 配信する期間や時間などを登録して、配信を予約してください。
 
-.mb-12
-  = render "campaigns/banner", campaign: @campaign
-
 = form_with model: @campaign, local: true do |f|
   = f.hidden_field :book_id, value: @book.id
   = f.hidden_field :book_title, value: @book.title
   = f.hidden_field :author_name, value: @book.author_name
-  = f.hidden_field :color, value: @campaign.color
   = f.hidden_field :pattern, value: @campaign.pattern
+
+  .mb-12
+    .mb-2
+      = render "campaigns/banner", campaign: @campaign
+    .flex.justify-end.space-x-2
+      - Campaign.colors.keys.each do |color|
+        = f.label :color, value: color, class: "w-6 h-6 rounded bg-#{color}-700 cursor-pointer has-[:checked]:opacity-70" do
+          = f.radio_button :color, color, class: "peer hidden", checked: @campaign.color == color
+          .hidden.peer-checked:block.text-white.p-1
+            %svg(class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+              %path(stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5")
+
 
   .mb-12
     .mb-8
