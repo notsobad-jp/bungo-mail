@@ -4,7 +4,7 @@ one:
   book_title: "走れメロス"
   author_name: "太宰治"
   start_date: "2025-01-01"
-  end_date: "2025-01-05"
+  end_date: "2025-01-02"
   color: "red"
 
 two:
@@ -12,6 +12,6 @@ two:
   book_id: 624
   book_title: "山月記"
   author_name: "中島敦"
-  start_date: "2025-01-01"
-  end_date: "2025-01-05"
+  start_date: "2025-01-03"
+  end_date: "2025-01-04"
   color: "teal"

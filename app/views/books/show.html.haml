@@ -33,7 +33,7 @@
           .inline.text-sm （配信期間の目安:
           .inline.text-red-600= @book.recommended_duration
           .inline.text-sm ）
-      %div(class="flex sm:items-center flex-col sm:flex-row sm:space-x-2")
+      %div(class="flex items-stretch sm:items-center flex-col sm:flex-row sm:space-x-2")
         = f.date_field :start_date, min: Date.current.tomorrow, max: Date.current.since(2.month), required: true, class: 'border border-gray-200 rounded p-2 flex-1'
         %div(class="text-center rotate-90 sm:rotate-0") 〜
         = f.date_field :end_date, min: Date.current.tomorrow, max: Date.current.since(14.months).end_of_month, required: true, class: 'border border-gray-200 rounded p-2 flex-1'
@@ -51,16 +51,16 @@
             Subscription.enum_options_for_select(:delivery_method),
             { include_blank: "通知なし", disabled: sub_f.object.disabled_delivery_methods },
             class: 'border border-gray-200 rounded w-full p-2'
-        %ul.mt-2.space-y-1
-          %li.text-xs
+        %ul.mt-2.space-y-1.text-xs
+          %li
             ※「通知なし」を選択した場合、配信登録後に発行されるRSSフィードからご自分で通知を受け取ってください
           - if sub_f.object.disabled_delivery_methods.include?(:webpush)
-            %li.text-xs
+            %li
               ※「プッシュ通知」での受信には
               = link_to "プッシュ通知の設定", mypage_path, class: "text-link"
               が必要です
           - if sub_f.object.disabled_delivery_methods.include?(:email)
-            %li.text-xs
+            %li
               ※「Eメール」での受信にはBASICプランへの登録が必要です
   .mb-4
     = f.submit '配信を予約する', class: "btn btn-primary", disabled: !authenticated?

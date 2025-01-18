@@ -10,6 +10,14 @@ class Campaign < ApplicationRecord
 
   scope :finished, -> { where("? > end_date", Date.current) }
   scope :unfinished, -> { where("? <= end_date", Date.current) }
+  scope :overlapping_with, -> (start_date, end_date) {
+    where("end_date >= ? and ? >= start_date", start_date, end_date)
+  }
+  scope :created_or_subscribed_by, -> (user) {
+    joins(:subscriptions).where(user_id: user.id).or(
+      joins(:subscriptions).where(subscriptions: { user_id: user.id })
+    )
+  }
 
   PATTERNS = ["seigaiha", "asanoha", "sayagata"]
   MAX_UNFINISHED_CAMPAIGNS = { free: 1, basic: 5 } # 予約可能キャンペーン数
@@ -56,7 +64,13 @@ class Campaign < ApplicationRecord
   end
 
   def delivery_period
-    "#{start_date} 〜 #{end_date}"
+    if start_date == end_date
+      start_date.strftime("%Y年%-m月%-d日")
+    elsif start_date.year == end_date.year
+      "#{start_date.strftime("%Y年%-m月%-d日")} 〜 #{end_date.strftime("%-m月%-d日")}"
+    else
+      "#{start_date.strftime("%Y年%-m月%-d日")} 〜 #{end_date.strftime("%Y年%-m月%-d日")}"
+    end
   end
 
   def pattern
@@ -71,27 +85,6 @@ class Campaign < ApplicationRecord
   # メール配信対象
   def subscriber_emails
     subscriptions.where(delivery_method: :email).preload(:user).map(&:user).pluck(:email)
-  end
-
-  def status
-    if Date.current < start_date
-      "配信予定"
-    elsif Date.current > end_date
-      "配信終了"
-    else
-      "配信中"
-    end
-  end
-
-  def status_color
-    case status
-    when "配信予定"
-      "blue"
-    when "配信中"
-      "orange"
-    when "配信終了"
-      "gray"
-    end
   end
 
   def to_ics_event

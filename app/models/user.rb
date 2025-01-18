@@ -4,12 +4,6 @@ class User < ApplicationRecord
   has_many :campaigns, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :subscribing_campaigns, through: :subscriptions, source: :campaign
-  has_many :created_or_subscribing_campaigns, ->(user) {
-              where('campaigns.user_id = :user_id OR campaigns.id IN (:subscribed_ids)',
-              user_id: user.id,
-              subscribed_ids: user.subscriptions.select(:campaign_id))
-            },
-            class_name: 'Campaign'
 
   enum :plan, { free: "free", basic: "basic" }, suffix: true
 
@@ -24,9 +18,4 @@ class User < ApplicationRecord
               message: "は半角8文字以上で、英大文字・小文字・数字をそれぞれ1文字以上含む必要があります"
             }
   validates :password_confirmation, presence: true, on: :create
-
-
-  def enabled_delivery_methods
-    Subscription::DELIVERY_METHOD_REQUIREMENTS.select { |_, requirement| requirement.call(self) }.keys
-  end
 end

@@ -20,16 +20,14 @@ module Webpush
   end
 
   # functions経由でtopic購読するためのラッパーメソッド
-  def subscribe_to_topic!(token:, topic:)
+  def subscribe_to_topic(token:, topic:)
     endpoint = Rails.application.credentials.dig(:function_endpoints, :subscribe)
-    res = http_get_request(endpoint, { token: token, topic: topic })
-    res.value
+    http_get_request(endpoint, { token: token, topic: topic })
   end
 
-  def unsubscribe_from_topic!(token:, topic:)
+  def unsubscribe_from_topic(token:, topic:)
     endpoint = Rails.application.credentials.dig(:function_endpoints, :unsubscribe)
-    res = http_get_request(endpoint, { token: token, topic: topic })
-    res.value
+    http_get_request(endpoint, { token: token, topic: topic })
   end
 
   def authorize_firebase

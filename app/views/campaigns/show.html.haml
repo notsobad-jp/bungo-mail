@@ -1,5 +1,5 @@
 .mb-8
-  = render "page_header", { campaign: @campaign }
+  = render "campaigns/page_header", { campaign: @campaign }
 
 .mb-12
   - if !authenticated? # 未ログイン
@@ -13,41 +13,46 @@
           が必要です。
   - else # ログイン済み
     - if current_user == @campaign.user # 自分の配信
-      = link_to campaign_path, data: { turbo_method: :delete, turbo_confirm: "この配信を削除します。本当によろしいですか？" }, local: true, class: "btn btn-danger-outline" do
-        %span 配信を削除する
+      .border.rounded.p-4.bg-gray-50
+        .flex.flex-col.sm:flex-row.items-stretch.space-y-2.sm:space-y-0.sm:space-x-4
+          = select_tag :delivery_method,
+            options_for_select(Subscription.enum_options_for_select(:delivery_method)),
+            selected: @subscription.delivery_method,
+            disabled: true,
+            class: 'border border-gray-200 rounded p-2 w-full flex-1'
+          = link_to campaign_path, data: { turbo_method: :delete, turbo_confirm: "この配信を削除します。本当によろしいですか？" }, local: true, class: "btn btn-danger-outline" do
+            %span 配信を削除する
     - else # 他ユーザーの配信
       - if @subscription.persisted? # 購読済み
-        = link_to subscription_path(@subscription), data: { turbo_method: :delete, turbo_confirm: "この配信の購読を解除します。本当によろしいですか？" }, local: true, class: "btn btn-danger" do
-          %span 購読を解除する
-      - elsif @overlapping_campaigns.present? # 重複期間で購読済み
-        .px-4.py-2.rounded.bg-yellow-50.border.border-yellow-500.text-yellow-700
-          .flex.items-center.space-x-4
-            %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6")
-              %path(stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z")
-            %div
-              購読済みの配信と配信期間が重複しているため購読できません。
-              複数配信の同時購読は有料プランへの登録が必要です。
+        .border.rounded.p-4.bg-gray-50
+          .flex.flex-col.sm:flex-row.items-stretch.space-y-2.sm:space-y-0.sm:space-x-4
+            = select_tag :delivery_method,
+              options_for_select(Subscription.enum_options_for_select(:delivery_method)),
+              selected: @subscription.delivery_method,
+              disabled: true,
+              class: 'border border-gray-200 rounded p-2 w-full flex-1'
+            = link_to subscription_path(@subscription), data: { turbo_method: :delete, turbo_confirm: "この配信の購読を解除します。本当によろしいですか？" }, local: true, class: "btn btn-danger-outline" do
+              購読を解除する
       - else # 購読可能
-        .border.rounded.p-4
-          = form_with model: @campaign.subscriptions.build, local: true do |f|
-            = f.hidden_field :campaign_id, value: @campaign.id
-            .flex.flex-col.sm:flex-row.items-center.space-y-2.sm:space-y-0.sm:space-x-4
-              .flex.items-center.mb-2.space-x-4
-                %label.flex.items-center.space-x-2
-                  = f.radio_button :delivery_method, :webpush, disabled: current_user.webpush_auth.blank?, class: "peer disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50"
-                  %span(class="peer-disabled:text-gray-400 peer-disabled:cursor-not-allowed") プッシュ通知
-                %label.flex.items-center.space-x-2
-                  = f.radio_button :delivery_method, :email, disabled: !current_user.basic_plan?, class: "peer disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50"
-                  %span(class="peer-disabled:text-gray-400 peer-disabled:cursor-not-allowed") Eメール
-              = f.submit "この配信を購読する", class: "btn btn-danger", disabled: current_user.webpush_auth.blank? && !current_user.basic_plan?
-        - if current_user.webpush_auth.blank?
-          .mt-2.text-sm.text-gray-500
-            ※プッシュ通知での購読は、
-            = link_to "通知の許可設定", mypage_path, class: "text-link"
-            が必要です。
-        - if !current_user.basic_plan?
-          .mt-2.text-sm.text-gray-500
-            ※Eメールでの購読は、有料プランへの登録が必要です。
+        = form_with url: campaign_subscriptions_path(@campaign), model: @subscription, local: true do |f|
+          .border.rounded.p-4.bg-gray-50
+            .flex.flex-col.sm:flex-row.items-stretch.space-y-2.sm:space-y-0.sm:space-x-4
+              = f.select :delivery_method,
+                Subscription.enum_options_for_select(:delivery_method),
+                { include_blank: "（通知方法を選択）", disabled: @subscription.disabled_delivery_methods, required: true },
+                class: 'border border-gray-200 rounded w-full p-2'
+              = f.submit "この配信を購読する", class: "btn btn-primary", disabled: @subscription.enabled_delivery_methods.blank?
+
+            - if @subscription.disabled_delivery_methods.present?
+              %ul.mt-2.space-y-1.text-xs
+                - if @subscription.disabled_delivery_methods.include?(:webpush)
+                  %li
+                    ※プッシュ通知での購読は、
+                    = link_to "通知の許可設定", mypage_path, class: "text-link"
+                    が必要です。
+                - if @subscription.disabled_delivery_methods.include?(:email)
+                  %li
+                    ※Eメールでの購読は、有料プランへの登録が必要です。
 
 .mb-12
   .border-b.border-gray-200.pb-5.mb-5

@@ -3,7 +3,7 @@ class CalendarsController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    events = user.subscribing_campaigns.map(&:to_ics_event)
+    events = Campaign.created_or_subscribed_by(user).map(&:to_ics_event)
     calendar = Calendar.new.add_events(events).publish
 
     respond_to do |format|
