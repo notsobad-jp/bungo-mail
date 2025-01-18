@@ -23,8 +23,6 @@ class Campaign < ApplicationRecord
     }
   validate :delivery_period_should_not_overlap, if: -> { user.free_plan? } # 無料ユーザーで期間が重複するレコードが存在すればinvalid
 
-  attr_accessor :delivery_method
-
   enum :color, {
     red: "red", # bg-red-700
     fuchsia: "fuchsia", # bg-fuchsia-700

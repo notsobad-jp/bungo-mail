@@ -10,7 +10,7 @@ class CampaignsController < ApplicationController
     @campaign = current_user.campaigns.new(campaign_params)
 
     if @campaign.save
-      CreateAndScheduleFeedsJob.perform_later(campaign_id: id)
+      CreateAndScheduleFeedsJob.perform_later(campaign_id: @campaign.id)
       CampaignMailer.with(user: current_user, campaign: @campaign).scheduled.deliver_later
       flash[:success] = '配信予約が完了しました！予約内容をメールでお送りしていますのでご確認ください。'
       redirect_to campaign_path(@campaign)
@@ -63,6 +63,7 @@ class CampaignsController < ApplicationController
         :delivery_method,
         :color,
         subscriptions_attributes: [
+          :user_id,
           :delivery_method,
         ],
       )
