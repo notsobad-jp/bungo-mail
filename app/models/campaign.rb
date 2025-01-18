@@ -81,27 +81,6 @@ class Campaign < ApplicationRecord
     subscriptions.where(delivery_method: :email).preload(:user).map(&:user).pluck(:email)
   end
 
-  def status
-    if Date.current < start_date
-      "配信予定"
-    elsif Date.current > end_date
-      "配信終了"
-    else
-      "配信中"
-    end
-  end
-
-  def status_color
-    case status
-    when "配信予定"
-      "blue"
-    when "配信中"
-      "orange"
-    when "配信終了"
-      "gray"
-    end
-  end
-
   def to_ics_event
     event = Icalendar::Event.new
     event.dtstart = Icalendar::Values::Date.new(start_date, tzid: "Asia/Tokyo")
