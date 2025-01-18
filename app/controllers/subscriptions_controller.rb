@@ -10,14 +10,19 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    subscription = current_user.subscriptions.new(subscription_params)
+    @campaign = Campaign.find(params[:campaign_id])
+    @subscription = @campaign.subscriptions.new(subscription_params)
+    @subscription.user = current_user
 
-    if subscription.save
+    if @subscription.save
       flash[:success] = '配信の購読が完了しました！'
-      redirect_to campaign_path(subscription.campaign_id)
+      redirect_to campaign_path(@campaign)
     else
-      flash[:error] = subscription.errors.full_messages.join('. ')
-      redirect_to campaign_path(subscription.campaign_id), status: 422
+      @feeds = @campaign.feeds.delivered_before(Time.current).order(position: :desc).limit(10)
+      @meta_title = @campaign.author_and_book_name
+
+      flash.now[:error] = @subscription.errors.full_messages.join('. ')
+      render template: "campaigns/show", status: 422
     end
   end
 
@@ -30,6 +35,6 @@ class SubscriptionsController < ApplicationController
   private
 
     def subscription_params
-      params.require(:subscription).permit(:campaign_id, :delivery_method)
+      params.require(:subscription).permit(:delivery_method)
     end
 end

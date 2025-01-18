@@ -21,7 +21,7 @@
 
   /* FIXME: クラスの組み合わせで実現できるようにする */
   .btn-danger-outline {
-    @apply bg-transparent shadow-none border border-red-600 text-red-600;
+    @apply bg-white hover:bg-red-50 shadow-none border border-red-600 text-red-600;
   }
 }
 

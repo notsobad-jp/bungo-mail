@@ -4,11 +4,12 @@ Rails.application.routes.draw do
   resources :books, only: [:index, :show]
   resources :calendars, only: [:show]
   resources :campaigns, shallow: true do
+    resources :subscriptions, only: [:create, :destroy]
     resources :feeds
     get :feed, on: :member, defaults: { format: :rss }
   end
   resources :passwords, param: :token
-  resources :subscriptions
+  resources :subscriptions, only: [:index]
 
   resource :session
   resource :user do
