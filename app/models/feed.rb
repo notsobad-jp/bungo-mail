@@ -3,8 +3,8 @@ class Feed < ApplicationRecord
 
   belongs_to :campaign
 
-  scope :delivered_before, ->(datetime) {
-    Feed.joins(:campaign).where(
+  scope :delivered_before, ->(datetime = Time.current) {
+    joins(:campaign).where(
       "campaigns.start_date + (feeds.position - 1) * interval '1 day' + campaigns.delivery_time < ?",
       datetime.strftime("%Y-%m-%d %H:%S")
     )
@@ -22,6 +22,16 @@ class Feed < ApplicationRecord
   def delivery_date
     campaign.start_date + ( position - 1 ).days
   end
+
+  def schedule(skip_before = Time.current)
+    return if deliver_at < skip_before
+
+    FeedDeliveryJob.new(feed_id: id).set(
+      wait_until: deliver_at,
+      queue: campaign_id,
+    )
+  end
+
 
   private
 
