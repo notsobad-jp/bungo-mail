@@ -63,7 +63,6 @@ class CampaignsController < ApplicationController
         :delivery_time,
         :delivery_method,
         :color,
-        :pattern,
       )
     end
 

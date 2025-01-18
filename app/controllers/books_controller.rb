@@ -18,7 +18,6 @@ class BooksController < ApplicationController
     @campaign = Campaign.new(
       book_id: params[:id],
       color: Campaign.colors.keys.sample,
-      pattern: Campaign.patterns.keys.sample,
       book_title: @book.title,
       author_name: @book.author_name,
       start_date: params[:start_date],

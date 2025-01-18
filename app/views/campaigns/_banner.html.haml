@@ -1,10 +1,20 @@
-.mb-2.rounded.text-center.text-white.py-10.px-12.bg-blend-multiply(class="bg-#{campaign.color}-700" style="background-image: url('#{image_url("backgrounds/#{campaign.pattern}.png")}')")
-  %h1(class="mb-2 sm:mb-4 text-2xl sm:text-4xl font-bold font-mincho")
-    = campaign.book_title
-  .text-large.font-mincho
-    = campaign.author_name
+%div(data-controller="campaign-color" data-campaign-color-color-value="#{campaign.color}")
+  .rounded.text-center.text-white.py-10.px-12.bg-blend-multiply(data-campaign-color-target="banner" class="bg-#{campaign.color}-700" style="background-image: url('#{image_url("backgrounds/#{campaign.pattern}.png")}')")
+    %h1(class="mb-2 sm:mb-4 text-2xl sm:text-4xl font-bold font-mincho")
+      = campaign.book_title
+    .text-large.font-mincho
+      = campaign.author_name
 
-  - if campaign.persisted?
-    .mt-4.text-sm
-      = campaign.start_date
-      = " 〜 #{campaign.end_date}" if campaign.end_date != campaign.start_date
+    - if campaign.persisted?
+      .mt-4.text-sm
+        = campaign.start_date
+        = " 〜 #{campaign.end_date}" if campaign.end_date != campaign.start_date
+
+  - if campaign.new_record?
+    .mt-2.flex.justify-end.space-x-2
+      - Campaign.colors.keys.each do |color|
+        = f.label :color, value: color, class: "w-6 h-6 rounded bg-#{color}-700 cursor-pointer has-[:checked]:opacity-70" do
+          = f.radio_button :color, color, class: "peer hidden", checked: campaign.color == color, "data-action": "change->campaign-color#updateColor", "data-campaign-color-color-param": color
+          .hidden.peer-checked:block.text-white.p-1
+            %svg(class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+              %path(stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5")

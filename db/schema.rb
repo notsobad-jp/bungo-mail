@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_01_000000) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_18_080110) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -25,7 +25,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000000) do
     t.date "end_date", null: false
     t.time "delivery_time", default: "2000-01-01 07:00:00", null: false
     t.string "color", null: false
-    t.string "pattern", null: false
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["book_id"], name: "index_campaigns_on_book_id"
