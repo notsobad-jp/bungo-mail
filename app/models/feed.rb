@@ -24,7 +24,7 @@ class Feed < ApplicationRecord
   end
 
   def schedule(skip_before = Time.current)
-    next if deliver_at < skip_before
+    return if deliver_at < skip_before
 
     FeedDeliveryJob.new(feed_id: id).set(
       wait_until: deliver_at,
