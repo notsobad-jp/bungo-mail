@@ -33,7 +33,7 @@
           .inline.text-sm （配信期間の目安:
           .inline.text-red-600= @book.recommended_duration
           .inline.text-sm ）
-      %div(class="flex sm:items-center flex-col sm:flex-row sm:space-x-2")
+      %div(class="flex items-stretch sm:items-center flex-col sm:flex-row sm:space-x-2")
         = f.date_field :start_date, min: Date.current.tomorrow, max: Date.current.since(2.month), required: true, class: 'border border-gray-200 rounded p-2 flex-1'
         %div(class="text-center rotate-90 sm:rotate-0") 〜
         = f.date_field :end_date, min: Date.current.tomorrow, max: Date.current.since(14.months).end_of_month, required: true, class: 'border border-gray-200 rounded p-2 flex-1'

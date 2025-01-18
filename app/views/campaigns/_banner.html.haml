@@ -2,13 +2,12 @@
   .rounded.text-center.text-white.py-10.px-12.bg-blend-multiply(data-campaign-color-target="banner" class="bg-#{campaign.color}-700" style="background-image: url('#{image_url("backgrounds/#{campaign.pattern}.png")}')")
     %h1(class="mb-2 sm:mb-4 text-2xl sm:text-4xl font-bold font-mincho")
       = campaign.book_title
-    .text-large.font-mincho
+    .text-lg.sm:text-xl.font-mincho
       = campaign.author_name
 
     - if campaign.persisted?
       .mt-4.text-sm
-        = campaign.start_date
-        = " 〜 #{campaign.end_date}" if campaign.end_date != campaign.start_date
+        = campaign.delivery_period
 
   - if campaign.new_record?
     .mt-2.flex.justify-end.space-x-2

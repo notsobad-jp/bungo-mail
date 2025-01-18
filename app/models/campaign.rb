@@ -64,7 +64,13 @@ class Campaign < ApplicationRecord
   end
 
   def delivery_period
-    "#{start_date} 〜 #{end_date}"
+    if start_date == end_date
+      start_date.strftime("%Y年%-m月%-d日")
+    elsif start_date.year == end_date.year
+      "#{start_date.strftime("%Y年%-m月%-d日")} 〜 #{end_date.strftime("%-m月%-d日")}"
+    else
+      "#{start_date.strftime("%Y年%-m月%-d日")} 〜 #{end_date.strftime("%Y年%-m月%-d日")}"
+    end
   end
 
   def pattern
