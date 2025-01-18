@@ -13,7 +13,7 @@ class Subscription < ApplicationRecord
   after_destroy :unsubscribe_from_webpush_topic, if: -> (sub) { sub.deliver_by_webpush? }
 
   validates :delivery_method, inclusion: { in: ->(sub) { sub.enabled_delivery_methods.map(&:to_s) } }
-  # validate :subscription_period_should_not_overlap, if: -> { user.free_plan? }
+  validate :subscription_period_should_not_overlap, if: -> { user.free_plan? }
 
 
   def disabled_delivery_methods
