@@ -28,26 +28,27 @@
               購読済みの配信と配信期間が重複しているため購読できません。
               複数配信の同時購読は有料プランへの登録が必要です。
       - else # 購読可能
-        .border.rounded.p-4
-          = form_with model: @campaign.subscriptions.build, local: true do |f|
+        = form_with model: @campaign.subscriptions.new(user: current_user), local: true do |f|
+          .border.rounded.p-4
             = f.hidden_field :campaign_id, value: @campaign.id
             .flex.flex-col.sm:flex-row.items-center.space-y-2.sm:space-y-0.sm:space-x-4
               .flex.items-center.mb-2.space-x-4
                 %label.flex.items-center.space-x-2
-                  = f.radio_button :delivery_method, :webpush, disabled: current_user.webpush_auth.blank?, class: "peer disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50"
+                  = f.radio_button :delivery_method, :webpush, disabled: f.object.disabled_delivery_methods.include?(:webpush), class: "peer disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50"
                   %span(class="peer-disabled:text-gray-400 peer-disabled:cursor-not-allowed") プッシュ通知
                 %label.flex.items-center.space-x-2
-                  = f.radio_button :delivery_method, :email, disabled: !current_user.basic_plan?, class: "peer disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50"
+                  = f.radio_button :delivery_method, :email, disabled: f.object.disabled_delivery_methods.include?(:email), class: "peer disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50"
                   %span(class="peer-disabled:text-gray-400 peer-disabled:cursor-not-allowed") Eメール
-              = f.submit "この配信を購読する", class: "btn btn-danger", disabled: current_user.webpush_auth.blank? && !current_user.basic_plan?
-        - if current_user.webpush_auth.blank?
-          .mt-2.text-sm.text-gray-500
-            ※プッシュ通知での購読は、
-            = link_to "通知の許可設定", mypage_path, class: "text-link"
-            が必要です。
-        - if !current_user.basic_plan?
-          .mt-2.text-sm.text-gray-500
-            ※Eメールでの購読は、有料プランへの登録が必要です。
+              = f.submit "この配信を購読する", class: "btn btn-danger", disabled: f.object.enabled_delivery_methods.blank?
+
+          - if f.object.disabled_delivery_methods.include?(:webpush)
+            .mt-2.text-sm.text-gray-500
+              ※プッシュ通知での購読は、
+              = link_to "通知の許可設定", mypage_path, class: "text-link"
+              が必要です。
+          - if f.object.disabled_delivery_methods.include?(:email)
+            .mt-2.text-sm.text-gray-500
+              ※Eメールでの購読は、有料プランへの登録が必要です。
 
 .mb-12
   .border-b.border-gray-200.pb-5.mb-5

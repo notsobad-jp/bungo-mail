@@ -10,6 +10,7 @@ class Campaign < ApplicationRecord
 
   scope :finished, -> { where("? > end_date", Date.current) }
   scope :unfinished, -> { where("? <= end_date", Date.current) }
+  scope :overlapping_with, -> (start_date, end_date) { where("end_date >= ? and ? >= start_date", start_date, end_date) }
 
   PATTERNS = ["seigaiha", "asanoha", "sayagata"]
   MAX_UNFINISHED_CAMPAIGNS = { free: 1, basic: 5 } # 予約可能キャンペーン数
