@@ -43,14 +43,6 @@ class Campaign < ApplicationRecord
     (end_date - start_date).to_i + 1
   end
 
-  def create_and_subscribe_and_schedule_feeds
-    ActiveRecord::Base.transaction do
-      save!
-      user.subscriptions.create!(campaign: self, delivery_method:) if delivery_method.present?
-    end
-    CreateAndScheduleFeedsJob.perform_later(campaign_id: id)
-  end
-
   def create_feeds
     book = Book.find(self.book_id)
     contents = book.contents(count: count)

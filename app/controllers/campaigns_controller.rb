@@ -9,12 +9,12 @@ class CampaignsController < ApplicationController
     authorize Campaign
     @campaign = current_user.campaigns.new(campaign_params)
 
-    begin
-      @campaign.create_and_subscribe_and_schedule_feeds
+    if @campaign.save
+      CreateAndScheduleFeedsJob.perform_later(campaign_id: id)
       CampaignMailer.with(user: current_user, campaign: @campaign).scheduled.deliver_later
       flash[:success] = '配信予約が完了しました！予約内容をメールでお送りしていますのでご確認ください。'
       redirect_to campaign_path(@campaign)
-    rescue
+    else
       @book = Book.find(@campaign.book_id)
       @meta_title = @book.title
 
