@@ -26,8 +26,9 @@ class CampaignsController < ApplicationController
 
   def show
     @campaign = Campaign.find(params[:id])
-    @feeds = Feed.delivered_before(Time.current).where(campaign_id: @campaign.id).order(position: :desc).page(params[:page]) # FIXME
+    @feeds = Feed.delivered_before(Time.current).where(campaign_id: @campaign.id).order(position: :desc).limit(10)
     @subscription = current_user.subscriptions.find_by(campaign_id: @campaign.id) if authenticated?
+    @disabled_delivery_methods = disabled_delivery_methods(current_user)
     @meta_title = @campaign.author_and_book_name
     @breadcrumbs = [ {text: '配信管理', link: subscriptions_path}, {text: @meta_title} ] if @subscription
 

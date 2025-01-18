@@ -15,6 +15,14 @@ class Subscription < ApplicationRecord
   validates :delivery_method, inclusion: { in: ->(sub) { sub.user.enabled_delivery_methods.map(&:to_s) } }
 
 
+  def disabled_delivery_methods
+    delivery_methods.keys.map(&:to_sym) - (user.enabled_delivery_methods)
+  end
+
+  def enabled_delivery_methods
+    DELIVERY_METHOD_REQUIREMENTS.select { |_, requirement| requirement.call(user) }.keys
+  end
+
   private
 
     def subscribe_to_webpush_topic
