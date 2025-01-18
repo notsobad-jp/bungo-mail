@@ -10,6 +10,8 @@ class Campaign < ApplicationRecord
   scope :finished, -> { where("? > end_date", Date.current) }
   scope :overlapping_with, -> (start_date, end_date) { where("end_date >= ? and ? >= start_date", start_date, end_date) }
 
+  PATTERNS = ["seigaiha", "asanoha", "sayagata"]
+
   validates :start_date, presence: true,
     comparison: { less_than_or_equal_to: -> _ { Date.today.since(2.months) } }
   validates :end_date, presence: true,
@@ -28,12 +30,6 @@ class Campaign < ApplicationRecord
     teal: "teal", # bg-teal-700
     yellow: "yellow", # bg-yellow-700
     slate: "slate", # bg-slate-700
-  }, prefix: true
-
-  enum :pattern, {
-    seigaiha: "seigaiha",
-    asanoha: "asanoha",
-    sayagata: "sayagata",
   }, prefix: true
 
 
@@ -69,6 +65,10 @@ class Campaign < ApplicationRecord
 
   def delivery_period
     "#{start_date} 〜 #{end_date}"
+  end
+
+  def pattern
+    PATTERNS[book_id % PATTERNS.length]
   end
 
   def schedule_feeds

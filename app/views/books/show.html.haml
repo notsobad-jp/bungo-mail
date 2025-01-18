@@ -19,7 +19,6 @@
   = f.hidden_field :book_id, value: @book.id
   = f.hidden_field :book_title, value: @book.title
   = f.hidden_field :author_name, value: @book.author_name
-  = f.hidden_field :pattern, value: @campaign.pattern
 
   .mb-12
     = render "campaigns/banner", campaign: @campaign, f: f
