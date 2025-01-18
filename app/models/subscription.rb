@@ -17,7 +17,7 @@ class Subscription < ApplicationRecord
 
 
   def disabled_delivery_methods
-    Subscription.delivery_methods.keys.map(&:to_sym) - (user&.enabled_delivery_methods || [])
+    Subscription.delivery_methods.keys.map(&:to_sym) - enabled_delivery_methods
   end
 
   def enabled_delivery_methods
