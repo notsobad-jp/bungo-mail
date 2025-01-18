@@ -8,7 +8,7 @@
   }
 
   .btn {
-    @apply inline-block w-full sm:w-auto py-2.5 px-4 rounded shadow text-center  text-white cursor-pointer hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-75;
+    @apply inline-block w-full sm:w-auto py-2.5 px-4 rounded shadow text-center text-white cursor-pointer hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-75;
   }
 
   .btn-primary {
@@ -17,6 +17,11 @@
 
   .btn-danger {
     @apply bg-red-600 focus-visible:outline-red-600;
+  }
+
+  /* FIXME: クラスの組み合わせで実現できるようにする */
+  .btn-danger-outline {
+    @apply bg-transparent shadow-none border border-red-600 text-red-600;
   }
 }
 
