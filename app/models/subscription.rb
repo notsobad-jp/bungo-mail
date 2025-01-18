@@ -27,14 +27,14 @@ class Subscription < ApplicationRecord
   private
 
     def subscribe_to_webpush_topic
-      Webpush.subscribe_to_topic!(
+      Webpush.subscribe_to_topic(
         token: user.fcm_device_token,
         topic: campaign_id
       ) if user.fcm_device_token.present?
     end
 
     def unsubscribe_from_webpush_topic
-      Webpush.unsubscribe_from_topic!(
+      Webpush.unsubscribe_from_topic(
         token: user.fcm_device_token,
         topic: campaign_id
       ) if user.fcm_device_token.present?
