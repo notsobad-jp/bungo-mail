@@ -264,6 +264,8 @@ class Book
     def find(id)
       res = self.call(path: "/v1/books/#{id.to_s}")
       Book.new(res)
+    rescue
+      raise ActiveRecord::RecordNotFound
     end
   end
 
