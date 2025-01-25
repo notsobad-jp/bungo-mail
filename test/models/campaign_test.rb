@@ -1,6 +1,21 @@
 require 'test_helper'
 
 describe Campaign do
+  describe "finished" do
+    it "should return finished campaigns" do
+      finished_campaign = campaigns(:one)
+      unfinished_campaign = campaigns(:three)
+      finished_campaigns = Campaign.finished("2025-03-01 00:00")
+
+      assert finished_campaigns.include?(finished_campaign)
+      assert finished_campaigns.exclude?(unfinished_campaign)
+    end
+
+    it "should not return unfinished campaigns" do
+      # refute Campaign.unfinished.exists?
+    end
+  end
+
   describe "overlapping_with" do
     it "should return overlapping campaigns" do
       refute Campaign.overlapping_with("2024-12-30", "2024-12-31").exists?

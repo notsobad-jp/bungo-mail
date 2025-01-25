@@ -18,7 +18,7 @@ class SubscriptionsController < ApplicationController
       flash[:success] = '配信の購読が完了しました！'
       redirect_to campaign_path(@campaign)
     else
-      @feeds = @campaign.feeds.delivered_before(Time.current).order(position: :desc).limit(10)
+      @feeds = @campaign.feeds.delivered.order(position: :desc).limit(10)
       @meta_title = @campaign.author_and_book_name
 
       flash.now[:error] = @subscription.errors.full_messages.join('. ')

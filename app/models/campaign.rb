@@ -8,8 +8,12 @@ class Campaign < ApplicationRecord
 
   accepts_nested_attributes_for :subscriptions, reject_if: :delivery_method_blank
 
-  scope :finished, -> { where("? > end_date", Date.current) }
-  scope :unfinished, -> { where("? <= end_date", Date.current) }
+  scope :finished, ->(datetime = Time.current) {
+    where("? > end_date + delivery_time", datetime)
+  }
+  scope :unfinished, ->(datetime = Time.current) {
+    where("? <= end_date + delivery_time", datetime)
+  }
   scope :overlapping_with, -> (start_date, end_date) {
     where("end_date >= ? and ? >= start_date", start_date, end_date)
   }
