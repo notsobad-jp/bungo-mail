@@ -57,9 +57,12 @@
                       ※Eメールでの購読は、有料プランへの登録が必要です。
 
 .mb-12
-  .border-b.border-gray-200.pb-2.mb-4
+  .flex.items-end.space-x-2.border-b.border-gray-200.pb-2.mb-4
     %h3(class="text-base font-semibold text-gray-900")
       配信済みエピソード
+    - if @campaign.finished?
+      .rounded-full.bg-gray-100.text-xs.px-3.py-1
+        配信終了
 
   - if @feeds.blank?
     %ul.mb-8
