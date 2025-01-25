@@ -20,8 +20,22 @@
   = f.hidden_field :book_title, value: @book.title
   = f.hidden_field :author_name, value: @book.author_name
 
-  .mb-12
-    = render "campaigns/banner", campaign: @campaign, f: f
+  .mb-12(data-controller="campaign-color" data-campaign-color-color-value="#{@campaign.color}")
+    = render "campaigns/banner", campaign: @campaign
+
+    .mt-2.flex.justify-between
+      .flex.justify-start.space-x-2
+        - Campaign.colors.keys.each do |color|
+          = f.label :color, value: color, class: "w-6 h-6 rounded bg-#{color}-700 cursor-pointer has-[:checked]:opacity-70" do
+            = f.radio_button :color, color, class: "peer hidden", checked: @campaign.color == color, "data-action": "change->campaign-color#updateColor", "data-campaign-color-color-param": color
+            .hidden.peer-checked:block.text-white.p-1
+              %svg(class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                %path(stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5")
+      = link_to @book.aozora_card_url, target: :_blank, class: "text-link flex items-center space-x-1 text-xs" do
+        %span.hidden.sm:inline-block 青空文庫で作品を見る
+        %span.inline-block.sm:hidden 青空文庫
+        %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3")
+          %path(stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25")
 
   .mb-12
     .mb-8
