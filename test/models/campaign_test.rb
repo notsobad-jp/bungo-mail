@@ -38,6 +38,13 @@ describe Campaign do
       assert_includes campaigns, campaigns(:one)
     end
 
+    it "should return created campaign without subscription" do
+      user = users(:free)
+
+      campaigns = Campaign.created_or_subscribed_by(user)
+      assert_includes campaigns, campaigns(:three)
+    end
+
     it "should return subscribed campaign" do
       user = users(:basic)
 
