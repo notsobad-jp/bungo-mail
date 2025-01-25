@@ -16,11 +16,12 @@
       - if current_user == @campaign.user # 自分の配信
         .border.rounded.p-4.bg-gray-50
           .flex.flex-col.sm:flex-row.items-stretch.space-y-2.sm:space-y-0.sm:space-x-4
-            = select_tag :delivery_method,
-              options_for_select(Subscription.enum_options_for_select(:delivery_method)),
-              selected: @subscription.delivery_method,
-              disabled: true,
-              class: 'border border-gray-200 rounded p-2 w-full flex-1'
+            = form_with model: @subscription, class: "flex-1", local: true do |f|
+              = f.select :delivery_method,
+                Subscription.enum_options_for_select(:delivery_method),
+                { include_blank: "通知なし", disabled: f.object.disabled_delivery_methods },
+                disabled: true,
+                class: 'border border-gray-200 rounded w-full h-full p-2'
             = link_to campaign_path, data: { turbo_method: :delete, turbo_confirm: "この配信を削除します。本当によろしいですか？" }, local: true, class: "btn btn-danger-outline" do
               %span 配信を削除する
       - else # 他ユーザーの配信
