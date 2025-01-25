@@ -6,6 +6,7 @@ ja:
         password: パスワード
         password_confirmation: パスワード（確認）
       subscription:
+        delivery_method: 通知方法
         delivery_methods:
           webpush: プッシュ通知
           email: Eメール
