@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_18_124448) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_25_094541) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -27,6 +27,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_18_124448) do
     t.string "color", null: false
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.virtual "start_at", type: :datetime, as: "(start_date + delivery_time)", stored: true
+    t.virtual "end_at", type: :datetime, as: "(end_date + delivery_time)", stored: true
     t.index ["book_id"], name: "index_campaigns_on_book_id"
     t.index ["end_date"], name: "index_campaigns_on_end_date"
     t.index ["start_date"], name: "index_campaigns_on_start_date"

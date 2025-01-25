@@ -25,7 +25,7 @@ class CampaignsController < ApplicationController
 
   def show
     @campaign = Campaign.find(params[:id])
-    @feeds = @campaign.feeds.delivered_before(Time.current).order(position: :desc).limit(10)
+    @feeds = @campaign.feeds.delivered.order(position: :desc).limit(10)
     @subscription = @campaign.subscriptions.find_or_initialize_by(user: current_user)
     @meta_title = @campaign.author_and_book_name
     @breadcrumbs = [ {text: '配信管理', link: subscriptions_path}, {text: @meta_title} ] if @subscription.persisted?
@@ -42,7 +42,7 @@ class CampaignsController < ApplicationController
 
   def feed
     @campaign = Campaign.find(params[:id])
-    @feeds = @campaign.feeds.delivered_before(Time.current).order('feeds.position DESC').limit(20)
+    @feeds = @campaign.feeds.delivered.order('feeds.position DESC').limit(20)
   end
 
   private
