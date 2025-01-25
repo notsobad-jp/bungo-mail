@@ -58,5 +58,12 @@ describe Campaign do
       campaigns = Campaign.created_or_subscribed_by(user)
       refute_includes campaigns, campaigns(:two)
     end
+
+    it "should return only one campaign when created and subscribed by the same user" do
+      user = users(:free)
+
+      campaigns = Campaign.created_or_subscribed_by(user)
+      assert_equal campaigns.uniq.count, campaigns.count
+    end
   end
 end

@@ -18,9 +18,12 @@ class Campaign < ApplicationRecord
     where("end_date >= ? and ? >= start_date", start_date, end_date)
   }
   scope :created_or_subscribed_by, -> (user) {
-    left_outer_joins(:subscriptions).where(user_id: user.id).or(
+    left_outer_joins(:subscriptions)
+    .where(user_id: user.id)
+    .or(
       left_outer_joins(:subscriptions).where(subscriptions: { user_id: user.id })
     )
+    .distinct
   }
 
   PATTERNS = ["seigaiha", "asanoha", "sayagata"]
