@@ -7,11 +7,13 @@ const app = initializeApp(window.firebaseConfig);
 const messaging = getMessaging(app);
 
 export default class extends Controller {
-  static values = {
-    vapid: String
-  }
+  static values = { vapid: String }
+  static targets = ["loadingIcon"]
 
-  async subscribe() {
+  async subscribe(e) {
+    this.loadingIconTarget.classList.remove("hidden")
+    e.currentTarget.disabled = true;
+
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
       alert("申し訳ありませんがお使いのブラウザではプッシュ通知がサポートされていないようです。。")
       return;
@@ -32,13 +34,28 @@ export default class extends Controller {
       console.error('Failed to subscribe push notification:', error);
       alert("通知設定に失敗しました。。")
       return;
+    } finally {
+      this.loadingIconTarget.classList.add("hidden")
+      e.currentTarget.disabled = false;
     }
   }
 
-  async unsubscribe() {
-    await this.updateSubscription({token: null});
-    alert("通知設定を解除しました！")
-    location.reload();
+  async unsubscribe(e) {
+    this.loadingIconTarget.classList.remove("hidden")
+    e.currentTarget.disabled = true;
+
+    try {
+      await this.updateSubscription({token: null});
+      alert("通知設定を解除しました！")
+      location.reload();
+    } catch (error) {
+      console.error('Failed to unsubscribe push notification:', error);
+      alert("通知設定の解除に失敗しました。。")
+      return;
+    } finally {
+      this.loadingIconTarget.classList.add("hidden")
+      e.currentTarget.disabled = false;
+    }
   }
 
   async updateSubscription(params) {
