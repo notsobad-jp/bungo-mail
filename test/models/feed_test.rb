@@ -4,26 +4,22 @@ describe Feed do
   describe "delivered" do
     it "should include feeds scheduled before today" do
       feed = feeds(:one_one)
-      feed.campaign.update(start_date: "2025-01-01")
       assert_includes Feed.delivered(before: Time.zone.parse("2025-01-02 00:00")), feed
     end
 
     it "should include feeds scheduled today but delivery time is passed" do
       feed = feeds(:one_one)
-      feed.campaign.update(start_date: "2025-01-01", delivery_time: "11:00")
-      assert_includes Feed.delivered(before: Time.zone.parse("2025-01-01 12:00")), feed
+      assert_includes Feed.delivered(before: Time.zone.parse("2025-01-01 08:00")), feed
     end
 
     it "should not include feeds scheduled today and delivery time is not passed" do
       feed = feeds(:one_one)
-      feed.campaign.update(start_date: "2025-01-01", delivery_time: "12:00")
-      refute_includes Feed.delivered(before: Time.zone.parse("2025-01-01 11:00")), feed
+      refute_includes Feed.delivered(before: Time.zone.parse("2025-01-01 06:00")), feed
     end
 
     it "should not include feeds scheduled after today" do
       feed = feeds(:one_one)
-      feed.campaign.update(start_date: "2025-01-02")
-      refute_includes Feed.delivered(before: Time.zone.parse("2025-01-01")), feed
+      refute_includes Feed.delivered(before: Time.zone.parse("2024-12-31")), feed
     end
 
     it "should include only its campaigns's feeds" do
