@@ -5,14 +5,19 @@ describe Campaign do
     it "should return finished campaigns" do
       finished_campaign = campaigns(:one)
       unfinished_campaign = campaigns(:three)
-      finished_campaigns = Campaign.finished("2025-03-01 00:00")
+      finished_campaigns = Campaign.finished(by: "2025-03-01 00:00")
 
       assert finished_campaigns.include?(finished_campaign)
       assert finished_campaigns.exclude?(unfinished_campaign)
     end
 
     it "should not return unfinished campaigns" do
-      # refute Campaign.unfinished.exists?
+      finished_campaign = campaigns(:one)
+      unfinished_campaign = campaigns(:three)
+      unfinished_campaigns = Campaign.unfinished(by: "2025-03-01 00:00")
+
+      assert unfinished_campaigns.exclude?(finished_campaign)
+      assert unfinished_campaigns.include?(unfinished_campaign)
     end
   end
 

@@ -8,11 +8,11 @@ class Campaign < ApplicationRecord
 
   accepts_nested_attributes_for :subscriptions, reject_if: :delivery_method_blank
 
-  scope :finished, ->(datetime = Time.current) {
-    where("? > end_date + delivery_time", datetime)
+  scope :finished, ->(by: Time.current) {
+    where("? > end_at", by)
   }
-  scope :unfinished, ->(datetime = Time.current) {
-    where("? <= end_date + delivery_time", datetime)
+  scope :unfinished, ->(by: Time.current) {
+    where("? <= end_at", by)
   }
   scope :overlapping_with, -> (start_date, end_date) {
     where("end_date >= ? and ? >= start_date", start_date, end_date)
@@ -77,6 +77,10 @@ class Campaign < ApplicationRecord
     end
   end
 
+  def finished?(by: Time.current)
+    end_at < by
+  end
+
   def pattern
     PATTERNS[book_id % PATTERNS.length]
   end
@@ -84,6 +88,10 @@ class Campaign < ApplicationRecord
   def schedule_feeds
     jobs = feeds.map(&:schedule).compact
     ActiveJob.perform_all_later(jobs) # DelayedJobが対応してないので結局loopして個別にenqueueされる
+  end
+
+  def started?(by: Time.current)
+    start_at < by
   end
 
   # メール配信対象
