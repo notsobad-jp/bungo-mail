@@ -2,9 +2,10 @@ class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :campaign
 
-  enum :delivery_method, { webpush: "webpush", email: "email" }, prefix: :deliver_by
+  enum :delivery_method, { none: "none", webpush: "webpush", email: "email" }, prefix: :deliver_by
 
   DELIVERY_METHOD_REQUIREMENTS = {
+    none: -> (user) { user == campaign.user },
     email: -> (user) { user&.basic_plan? },
     webpush: -> (user) { user&.fcm_device_token.present? }
   }.freeze

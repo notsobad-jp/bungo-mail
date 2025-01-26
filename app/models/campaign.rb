@@ -6,7 +6,7 @@ class Campaign < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :delayed_jobs, foreign_key: :queue, dependent: :destroy
 
-  accepts_nested_attributes_for :subscriptions, reject_if: :delivery_method_blank
+  accepts_nested_attributes_for :subscriptions
 
   scope :finished, ->(by: Time.current) {
     where("? > end_at", by)
@@ -17,17 +17,8 @@ class Campaign < ApplicationRecord
   scope :overlapping_with, -> (start_date, end_date) {
     where("end_date >= ? and ? >= start_date", start_date, end_date)
   }
-  scope :created_or_subscribed_by, -> (user) {
-    left_outer_joins(:subscriptions)
-    .where(user_id: user.id)
-    .or(
-      left_outer_joins(:subscriptions).where(subscriptions: { user_id: user.id })
-    )
-    .distinct
-  }
 
   PATTERNS = ["seigaiha", "asanoha", "sayagata"]
-  MAX_UNFINISHED_CAMPAIGNS = { free: 1, basic: 5 } # 予約可能キャンペーン数
 
   validates :start_date, presence: true,
     comparison: { less_than_or_equal_to: -> _ { Date.today.since(2.months) } }
@@ -36,7 +27,6 @@ class Campaign < ApplicationRecord
       greater_than_or_equal_to: :start_date,
       less_than_or_equal_to: -> campaign { campaign.start_date.since(1.year) }
     }
-  validate :validate_unfinished_campaigns_count
 
   enum :color, {
     red: "red", # bg-red-700
@@ -114,20 +104,4 @@ class Campaign < ApplicationRecord
     event.description = campaign_url(id, host: Rails.application.credentials.dig(:hosts, "bungo-mail"))
     event
   end
-
-
-  private
-
-    def delivery_method_blank(attributes)
-      attributes[:delivery_method].blank?
-    end
-
-    def validate_unfinished_campaigns_count
-      current_count = user.campaigns.unfinished.count
-      limit = MAX_UNFINISHED_CAMPAIGNS[user.plan.to_sym]
-
-      if current_count >= limit
-        errors.add(:base, "配信数の上限を超えています。現在のプランの予約上限は「#{limit}本」です。予約済みの配信を削除するか、配信が終わるまでお待ちください")
-      end
-    end
 end
