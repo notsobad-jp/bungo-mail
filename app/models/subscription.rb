@@ -5,8 +5,8 @@ class Subscription < ApplicationRecord
   enum :delivery_method, { webpush: "webpush", email: "email" }, prefix: :deliver_by
 
   DELIVERY_METHOD_REQUIREMENTS = {
-    email: -> (user, _campaign) { user&.basic_plan? },
-    webpush: -> (user, _campaign) { user&.fcm_device_token.present? }
+    email: -> (user) { user&.basic_plan? },
+    webpush: -> (user) { user&.fcm_device_token.present? }
   }.freeze
 
   after_create :subscribe_to_webpush_topic, if: -> (sub) { sub.deliver_by_webpush? }
@@ -23,7 +23,7 @@ class Subscription < ApplicationRecord
   end
 
   def enabled_delivery_methods
-    DELIVERY_METHOD_REQUIREMENTS.select { |_, requirement| requirement.call(user, campaign) }.keys
+    DELIVERY_METHOD_REQUIREMENTS.select { |_, requirement| requirement.call(user) }.keys
   end
 
   private
