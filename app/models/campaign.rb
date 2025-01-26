@@ -109,7 +109,7 @@ class Campaign < ApplicationRecord
   def to_ics_event
     event = Icalendar::Event.new
     event.dtstart = Icalendar::Values::Date.new(start_date, tzid: "Asia/Tokyo")
-    event.dtend = Icalendar::Values::Date.new(end_date, tzid: "Asia/Tokyo")
+    event.dtend = Icalendar::Values::Date.new(end_date + 1, tzid: "Asia/Tokyo") # 最終日が除外されてしまうので1日ずらす
     event.summary = author_and_book_name
     event.description = campaign_url(id, host: Rails.application.credentials.dig(:hosts, "bungo-mail"))
     event
