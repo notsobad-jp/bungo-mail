@@ -383,7 +383,7 @@
         </ul>
         <div class="mt-8 sm:mt-10 w-full btn btn-danger opacity-50 hover:opacity-50">
           有料プランに登録
-          <small class="text-xs">（1ヶ月無料）</small>
+          <small class="text-xs">（1週間無料）</small>
         </div>
 
         <div class="text-xs text-gray-500 mt-4">
@@ -535,36 +535,37 @@
       <dl class="space-y-16 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-16 sm:space-y-0 lg:gap-x-10">
         <div>
           <dt class="text-base font-semibold leading-7 text-gray-900">
-            登録したけどメールが届きません
+            ブンゴウメールは無料で利用できますか？
           </dt>
           <dd class="mt-2 text-base leading-7 text-gray-600">
             <p>
-              お使いのメールソフトによっては、自動で迷惑メールフォルダなどにはいってしまう場合があります。 特にGmailや携帯キャリアアドレスをお使いの場合にフィルタされるケースが多いようです。
+              はい、ブンゴウメールは無料プランで利用することも可能です。
+              <br />
+              無料プランでは「メール」ではなく「プッシュ通知」または「RSSフィード」での購読のみとなり、また同時に購読できるのも1作品までとなります。
             </p>
             <p>
-              公式ブログに対応方法をご案内しておりますので、メールが届かない場合はこちらを参考にご設定お願いいたします。
-            </p>
-            <div class="my-2">
-              <%= link_to "ブンゴウメールからメールを受信できないケースと対応方法について", "https://blog.bungomail.com/entry/2018/05/21/172542", class: "text-link", target: :_blank %>
-            </div>
-            <p>
-              上記すべて確認してもメールが届かない場合は、お手数ですが運営までお問い合わせいただければ幸いです。
+              またプッシュ通知に関するトラブルなどのサポートも一切ご提供できませんのでご了承ください。
+              確実に受信したい、複数の作品を同時に購読したい、といった場合は有料プランの利用をご検討ください。
             </p>
           </dd>
         </div>
         <div>
           <dt class="text-base font-semibold leading-7 text-gray-900">
-            有料プランを解約したいのですが
+            プッシュ通知/メール配信を受け取れません
           </dt>
           <dd class="mt-2 text-base leading-7 text-gray-600">
             <p>
-              解約を希望される場合は、マイページからいつでも解約することができます。
+              公式ガイドで
+              <%= link_to "プッシュ通知の設定方法", "https://notsobad-jp.notion.site/86691ddb571e4ddb8b2c234e6751dcde", class: "text-link", target: :_blank %>
+              と
+              <%= link_to "メールの受信設定方法", "https://notsobad-jp.notion.site/1b2a7d300bb3458e878ad339d40e2b2e", class: "text-link", target: :_blank %>
+              を説明していますので、そちらをご参考ください。
             </p>
-            <div class="my-2">
-              <%= link_to "マイページ", mypage_path, class: "text-link" %>
-            </div>
             <p>
-              解約をお申し込みいただくと、月末まで配信を続けたあと翌月の更新を行わず自動的に契約を終了します。 配信もすぐに停止したい場合はお手数ですが運営までお問い合わせください。 その場合も当月分の料金は返金されませんのでご了承ください。
+              大変申し訳ありませんが、プッシュ通知の設定に関するサポートは一切行っておりません。
+              特にiOSのプッシュ通知設定は非常に難易度が高いので、どうしても設定できない方は、
+              <%= link_to "RSSフィードで購読", "", class: "text-link", target: :_blank %>
+              するか、有料プランへのアップグレードをご検討いただければ幸いです。
             </p>
           </dd>
         </div>
@@ -582,17 +583,15 @@
         </div>
         <div>
           <dt class="text-base font-semibold leading-7 text-gray-900">
-            ブンゴウメールは無料で利用できますか？
+            無料だとプッシュ通知しかないなら、もはやブンゴウプッシュなのではないか
           </dt>
           <dd class="mt-2 text-base leading-7 text-gray-600">
             <p>
-              はい、ブンゴウメールは無料プランで利用することも可能です。
-              <br />
-              無料プランではメールではなくプッシュ通知での配信のみとなり、また同時に購読できるのも1作品までとなります。
+              大変申し訳ありません。ブンゴウプッシュと呼ばれてもしょうがないと思っております。
+              ただメールはプッシュ通知に比べて配信費用がかさむため、どうしても無料での提供が難しいことはご了承ください。
             </p>
             <p>
-              またプッシュ通知に関するトラブルなどのサポートも一切ご提供できませんのでご了承ください。
-              確実に受信したい、複数の作品を同時に購読したい、といった場合は有料プランの利用をご検討ください。
+              サービスを気に入ってくださった方は、ぜひ有料プランのメール配信もお試しいただければ幸いです。
             </p>
           </dd>
         </div>
@@ -602,6 +601,21 @@
           </dt>
           <dd class="mt-2 text-base leading-7 text-gray-600">
             はい、可能です。メールアドレスの変更を希望される場合は、お手数ですが運営までお問い合わせください。
+          </dd>
+        </div>
+        <div>
+          <dt class="text-base font-semibold leading-7 text-gray-900">
+            有料プランを解約したいのですが
+          </dt>
+          <dd class="mt-2 text-base leading-7 text-gray-600">
+            <p>
+              解約を希望される場合は、
+              <%= link_to "マイページ", mypage_path, class: "text-link" %>
+              からいつでも解約することができます。
+            </p>
+            <p>
+              解約をお申し込みいただくと、現在の契約期間終了まで配信を続けたあと、更新を行わず自動的に契約を終了します。配信もすぐに停止したい場合はお手数ですが運営までお問い合わせください。 その場合もお支払い済みの料金は返金されませんのでご了承ください。
+            </p>
           </dd>
         </div>
       </dl>
