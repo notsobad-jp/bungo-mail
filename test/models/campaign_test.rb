@@ -30,39 +30,32 @@ describe Campaign do
     end
   end
 
-  describe "created_or_subscribed_by" do
+  describe "subscribing_campaigns" do
     it "should return created campaign" do
       user = users(:free)
 
-      campaigns = Campaign.created_or_subscribed_by(user)
+      campaigns = user.subscribing_campaigns
       assert_includes campaigns, campaigns(:one)
-    end
-
-    it "should return created campaign without subscription" do
-      user = users(:free)
-
-      campaigns = Campaign.created_or_subscribed_by(user)
-      assert_includes campaigns, campaigns(:three)
     end
 
     it "should return subscribed campaign" do
       user = users(:basic)
 
-      campaigns = Campaign.created_or_subscribed_by(user)
+      campaigns = user.subscribing_campaigns
       assert_includes campaigns, campaigns(:one)
     end
 
     it "should not return not created nor subscribed campaign" do
       user = users(:free)
 
-      campaigns = Campaign.created_or_subscribed_by(user)
+      campaigns = user.subscribing_campaigns
       refute_includes campaigns, campaigns(:two)
     end
 
     it "should return only one campaign when created and subscribed by the same user" do
       user = users(:free)
 
-      campaigns = Campaign.created_or_subscribed_by(user)
+      campaigns = user.subscribing_campaigns
       assert_equal campaigns.uniq.count, campaigns.count
     end
   end
