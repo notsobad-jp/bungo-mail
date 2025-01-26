@@ -68,7 +68,12 @@
             class: 'border border-gray-200 rounded w-full p-2'
         %ul.mt-2.space-y-1.text-xs
           %li
-            ※「通知なし」を選択した場合、配信登録後に発行されるRSSフィードからご自分で通知を受け取ってください
+            ※「通知なし」を選択した場合、配信登録後に発行される
+            = link_to "https://notsobad-jp.notion.site/RSS-187be2cd8d968082bb4fd99576a5526d", target: :_blank, class: "text-link inline-flex items-center space-x-1" do
+              %span RSSフィードをご自身で購読
+              %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3")
+                %path(stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25")
+            してください
           - if sub_f.object.disabled_delivery_methods.include?(:webpush)
             %li
               ※「プッシュ通知」での受信には
