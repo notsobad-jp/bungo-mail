@@ -8,7 +8,6 @@ ja:
       subscription:
         delivery_method: 通知方法
         delivery_methods:
-          none: 通知なし
           webpush: プッシュ通知
           email: Eメール
     errors:

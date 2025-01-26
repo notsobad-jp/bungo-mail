@@ -2,18 +2,19 @@ class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :campaign
 
-  enum :delivery_method, { none: "none", webpush: "webpush", email: "email" }, prefix: :deliver_by
+  enum :delivery_method, { webpush: "webpush", email: "email" }, prefix: :deliver_by
 
   DELIVERY_METHOD_REQUIREMENTS = {
-    none: -> (user) { user == campaign.user },
-    email: -> (user) { user&.basic_plan? },
-    webpush: -> (user) { user&.fcm_device_token.present? }
+    email: -> (user, _campaign) { user&.basic_plan? },
+    webpush: -> (user, _campaign) { user&.fcm_device_token.present? }
   }.freeze
 
   after_create :subscribe_to_webpush_topic, if: -> (sub) { sub.deliver_by_webpush? }
   after_destroy :unsubscribe_from_webpush_topic, if: -> (sub) { sub.deliver_by_webpush? }
 
-  validates :delivery_method, inclusion: { in: ->(sub) { sub.enabled_delivery_methods.map(&:to_s) } }
+  validates :delivery_method,
+    inclusion: { in: ->(sub) { sub.enabled_delivery_methods.map(&:to_s) } },
+    allow_blank: { if: ->(sub) { sub.campaign.user_id == sub.user_id } }
   validate :subscription_period_should_not_overlap, if: -> { user.free_plan? }
 
 
@@ -22,7 +23,7 @@ class Subscription < ApplicationRecord
   end
 
   def enabled_delivery_methods
-    DELIVERY_METHOD_REQUIREMENTS.select { |_, requirement| requirement.call(user) }.keys
+    DELIVERY_METHOD_REQUIREMENTS.select { |_, requirement| requirement.call(user, campaign) }.keys
   end
 
   private
