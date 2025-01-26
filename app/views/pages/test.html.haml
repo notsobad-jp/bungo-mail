@@ -1,0 +1,20 @@
+!!!
+%html(lang="ja")
+  %head
+    = csrf_meta_tags
+    = csp_meta_tag
+    = javascript_importmap_tags
+    = stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload"
+    %link(rel="preconnect" href="https://fonts.gstatic.com")
+    %link(href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet")
+    %link(rel="manifest" href="/manifest.json")
+    %script(src="https://html2canvas.hertzen.com/dist/html2canvas.min.js")
+  %body
+    %div(id="bg" class="w-[1200px] h-[630px]" style="background-image: url(#{image_url('backgrounds/sayagata.png')})")
+    %a(id="btn" href="#" download="hogehgoe") ダウンロードリンクだよ
+
+    :javascript
+      html2canvas(document.querySelector("#bg")).then(canvas => {
+        const canvasImage = canvas.toDataURL("image/png")
+        document.querySelector("#btn").setAttribute('href', canvasImage)
+      });

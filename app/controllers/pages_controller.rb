@@ -10,7 +10,7 @@ class PagesController < ApplicationController
     @meta_title = page_titles[params[:page].to_sym]
     raise ActionController::RoutingError, request.url unless @meta_title
     @meta_description = @meta_title
-    render params[:page]
+    render params[:page], layout: false
   end
 
   def dogramagra
@@ -34,6 +34,7 @@ class PagesController < ApplicationController
       privacy: 'プライバシーポリシー',
       tokushoho: '特定商取引法に基づく表記',
       unsubscribe: '退会',
+      test: "テスト",
     }
   end
 end
