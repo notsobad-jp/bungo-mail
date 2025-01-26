@@ -61,4 +61,30 @@ describe Subscription do
       end
     end
   end
+
+  describe "subscription_period_should_not_overlap" do
+    context "user with free plan" do
+      context "when creating a new campaign" do
+        it "should be valid if delivery_period is not overlapped" do; end
+        it "should be invalid if delivery_period is overlapped" do; end
+      end
+
+      context "when subscribing other's campaign" do
+        it "should be valid if delivery_period is not overlapped" do; end
+        it "should be invalid if delivery_period is overlapped" do; end
+      end
+    end
+
+    context "user with basic plan" do
+      context "when creating a new campaign" do
+        it "should be valid if delivery_period is not overlapped" do; end
+        it "should be valid even if delivery_period is overlapped" do; end
+      end
+
+      context "when subscribing other's campaign" do
+        it "should be valid if delivery_period is not overlapped" do; end
+        it "should be valid even if delivery_period is overlapped" do; end
+      end
+    end
+  end
 end
