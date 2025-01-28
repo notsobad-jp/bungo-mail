@@ -11,6 +11,9 @@ class Subscription < ApplicationRecord
 
   after_create :subscribe_to_webpush_topic, if: -> (sub) { sub.deliver_by_webpush? }
   after_destroy :unsubscribe_from_webpush_topic, if: -> (sub) { sub.deliver_by_webpush? }
+  after_destroy do
+    campaign.destroy! if campaign.subscriptions.empty?
+  end
 
   validates :delivery_method,
     inclusion: { in: ->(sub) { sub.enabled_delivery_methods.map(&:to_s) } },
