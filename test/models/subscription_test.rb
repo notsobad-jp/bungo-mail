@@ -87,4 +87,27 @@ describe Subscription do
       end
     end
   end
+
+  describe "destroy" do
+    context "when campaign has no more subscriptions" do
+      it "should destroy campaign" do
+        campaign = campaigns(:two)
+        subscription = campaign.subscriptions.create!(user: users(:basic), delivery_method: :email)
+
+        assert_difference('Campaign.count', -1) do
+          subscription.destroy
+        end
+      end
+    end
+
+    context "when campaign has other subscriptions" do
+      it "should leave campaign alive" do
+        subscription = subscriptions(:webpush)
+
+        assert_no_difference('Campaign.count') do
+          subscription.destroy
+        end
+      end
+    end
+  end
 end
