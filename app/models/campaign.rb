@@ -43,7 +43,7 @@ class Campaign < ApplicationRecord
   end
 
   def og_image_url
-    "https://res.cloudinary.com/dm6zgwgiq/image/upload/l_#{color}/e_multiply,fl_layer_apply/fl_relative,co_white,l_text:TakaoExGothic_50_style_align_center:#{ERB::Util.u(author_name)},y_-0.2/co_white,l_text:TakaoExGothic_100_bold_style_align_center:#{ERB::Util.u(book_title)}/fl_relative,co_white,l_text:TakaoExGothic_30_style_align_center:#{ERB::Util.u(delivery_period)},y_0.2/#{pattern}.png"
+    "https://res.cloudinary.com/dm6zgwgiq/image/upload/l_#{color}/e_multiply,fl_layer_apply/fl_relative,co_white,l_text:TakaoExGothic_50_style_align_center:#{ERB::Util.u(author_name)},y_-0.12/fl_relative,co_white,l_text:TakaoExGothic_100_bold_style_align_center:#{ERB::Util.u(book_title)},y_0.05/fl_relative,co_white,l_text:TakaoExGothic_30_style_align_center:#{ERB::Util.u(delivery_period)},y_0.23/#{pattern}.png"
   end
 
   def count
