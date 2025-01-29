@@ -303,9 +303,6 @@ class Book
         Rails.logger.info "[BungoAPI] #{method} #{path}"
         res
       end
-    rescue => error
-      Rails.logger.error "[BungoAPI] #{method} #{path}, Error: #{error}"
-      raise error
     end
   end
 end
