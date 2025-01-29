@@ -11,8 +11,7 @@ class CampaignsController < ApplicationController
 
     if @campaign.save
       CreateAndScheduleFeedsJob.perform_later(campaign_id: @campaign.id)
-      CampaignMailer.with(user: current_user, campaign: @campaign).scheduled.deliver_later
-      flash[:success] = '配信予約が完了しました！予約内容をメールでお送りしていますのでご確認ください。'
+      flash[:success] = '配信予約が完了しました！'
       redirect_to campaign_path(@campaign)
     else
       @book = Book.find(@campaign.book_id)
@@ -35,7 +34,6 @@ class CampaignsController < ApplicationController
 
   def destroy
     @campaign = authorize Campaign.find(params[:id])
-    CampaignMailer.with(user: current_user, author_and_book_name: @campaign.author_and_book_name, delivery_period: @campaign.delivery_period).canceled.deliver_later
     @campaign.destroy!
 
     flash[:success] = '配信を削除しました！'
