@@ -15,7 +15,7 @@ export default class extends Controller {
     e.currentTarget.disabled = true;
 
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-      alert("申し訳ありませんがお使いのブラウザではプッシュ通知がサポートされていないようです。。")
+      alert("申し訳ありませんがお使いの環境ではプッシュ通知がサポートされていないようです。。")
       return;
     }
 
