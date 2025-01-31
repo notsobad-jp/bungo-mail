@@ -1,6 +1,6 @@
 class CampaignsController < ApplicationController
   allow_unauthenticated_access only: %i[ index show feed ]
-  after_action :verify_authorized, only: %i[ create destroy ]
+  after_action :verify_authorized, only: %i[ create ]
 
   def index
   end
@@ -30,14 +30,6 @@ class CampaignsController < ApplicationController
     @meta_title = @campaign.author_and_book_name
     @meta_image = @campaign.og_image_url
     @breadcrumbs = [ {text: '配信管理', link: subscriptions_path}, {text: @meta_title} ] if @subscription.persisted?
-  end
-
-  def destroy
-    @campaign = authorize Campaign.find(params[:id])
-    @campaign.destroy!
-
-    flash[:success] = '配信を削除しました！'
-    redirect_to subscriptions_path, status: 303
   end
 
   def feed

@@ -29,7 +29,9 @@ class SubscriptionsController < ApplicationController
   def destroy
     subscription = authorize Subscription.find(params[:id])
     subscription.destroy!
-    redirect_to campaign_path(subscription.campaign), flash: { success: "配信の購読を解除しました。" }, status: 303
+
+    path = Campaign.exists?(subscription.campaign_id) ? campaign_path(subscription.campaign) : subscriptions_path
+    redirect_to path, flash: { success: "配信の購読を解除しました。" }, status: 303
   end
 
   private

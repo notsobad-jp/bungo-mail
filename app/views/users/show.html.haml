@@ -9,7 +9,7 @@
     %dt.text-gray-500.text-sm
       現在のプラン:
     %dd.font-bold
-      Free
+      = current_user.plan.upcase
 
 .mb-16(data-controller="webpush" data-webpush-vapid-value="#{Rails.application.credentials.dig(:vapid, :public_key)}")
   .flex.items-end.mb-4.pb-2.border-b.justify-between
