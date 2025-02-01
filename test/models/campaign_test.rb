@@ -59,4 +59,11 @@ describe Campaign do
       assert_equal campaigns.uniq.count, campaigns.count
     end
   end
+
+  describe "subscriber_emails" do
+    it "should return emails of email subscribers" do
+      campaign = campaigns(:one)
+      assert_equal campaign.subscriber_emails, ["basic@example.com"]
+    end
+  end
 end

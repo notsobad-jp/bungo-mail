@@ -93,7 +93,7 @@ class Campaign < ApplicationRecord
 
   # メール配信対象
   def subscriber_emails
-    subscriptions.where(delivery_method: :email).preload(:user).map(&:user).pluck(:email)
+    subscriptions.where(delivery_method: :email).preload(:user).map(&:user).pluck(:email_address)
   end
 
   def to_ics_event
