@@ -488,29 +488,32 @@
       <%= link_to "https://www.j-wave.co.jp/original/colorswonder/entry/200517.html", target: :_blank do %>
         <%= image_tag "lp/media/j-wave.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
+      <%= link_to "https://publications.asahi.com/product/24794.html", target: :_blank do %>
+        <%= image_tag "lp/media/aera.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "AERA", width: 158, height: 48 %>
+      <% end %>
       <%= link_to "https://gigazine.net/news/20180531-bungomail/", target: :_blank do %>
         <%= image_tag "lp/media/gigazine.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "http://nlab.itmedia.co.jp/nl/articles/1804/27/news145.html", target: :_blank do %>
         <%= image_tag "lp/media/nlab.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
-      <%= link_to "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", target: :_blank do %>
-        <%= image_tag "lp/media/internetwatch.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
-      <% end %>
       <%= link_to "https://rocketnews24.com/2019/12/11/1303143/", target: :_blank do %>
         <%= image_tag "lp/media/rocketnews.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
-      <% end %>
-      <%= link_to "https://kai-you.net/article/69993", target: :_blank do %>
-        <%= image_tag "lp/media/kai-you.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://news.mynavi.jp/article/20201206-1562101/", target: :_blank do %>
         <%= image_tag "lp/media/mynavi.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
       <% end %>
-      <%= link_to "https://amp.review/2019/04/08/search-bungomail/", target: :_blank do %>
-        <%= image_tag "lp/media/amp.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
+      <%= link_to "https://internet.watch.impress.co.jp/docs/yajiuma/1224590.html", target: :_blank do %>
+        <%= image_tag "lp/media/internetwatch.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://www.j-cast.com/trend/2019/04/08354695.html", target: :_blank do %>
         <%= image_tag "lp/media/jcast.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
+      <% end %>
+      <%= link_to "https://kai-you.net/article/69993", target: :_blank do %>
+        <%= image_tag "lp/media/kai-you.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Transistor", width: 158, height: 48 %>
+      <% end %>
+      <%= link_to "https://amp.review/2019/04/08/search-bungomail/", target: :_blank do %>
+        <%= image_tag "lp/media/amp.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
       <% end %>
       <%= link_to "https://lamire.jp/148287", target: :_blank do %>
         <%= image_tag "lp/media/lamire.png", class: "block max-h-8 sm:max-h-12 object-contain mb-4", alt: "Statamic", width: 158, height: 48 %>
@@ -648,7 +651,33 @@
       <div class="mt-16 space-y-8 lg:mt-20 lg:space-y-8">
         <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
           <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
-            <%= image_tag "lp/news/nhk.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover", alt: "NHK「ニュース シブ5時」" %>
+            <%= image_tag "lp/news/aera.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover object-top", alt: "AERA" %>
+            <div class="absolute inset-0 rounded"></div>
+          </div>
+          <div>
+            <div class="flex items-center gap-x-4 text-xs">
+              <time datetime="2020-10-29" class="text-gray-500">2024-04-22</time>
+              <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600">
+                メディア掲載
+              </span>
+            </div>
+            <div class="group relative max-w-xl">
+              <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                <a href="https://publications.asahi.com/product/24794.html", target="_blank">
+                  <span class="absolute inset-0"></span>
+                  AERAの特集記事で紹介いただきました
+                </a>
+              </h3>
+              <p class="mt-2 text-sm leading-6 text-gray-600">
+                AERA 4月29日-5月6日合併増大号の特集「新たな読書体験を提供するサービスが広がる」で、ブンゴウメールを紹介いただきました。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row">
+          <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-48 lg:shrink-0">
+            <%= image_tag "lp/news/nhk.jpg", class: "absolute inset-0 h-full w-full rounded bg-gray-50 object-cover object-bottom", alt: "NHK「ニュース シブ5時」" %>
             <div class="absolute inset-0 rounded"></div>
           </div>
           <div>
